@@ -46,14 +46,14 @@ body {
 }
 
 .txt1 {
-	font-family: 'Andale Mono', monospace;
+	font-family: 'Lucida Sans Unicode', sans-serif;
 	font-size: 25px;
 	font-weight: bold;
 
 }
 
 .txt2 {
-	font-family: 'Andale Mono', monospace;
+	font-family: 'Lucida Console', monospace;
 	font-size: 17px;
 	font-style: italic;
 
