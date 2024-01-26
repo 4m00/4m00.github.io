@@ -12,7 +12,7 @@ body {
 
 .inner {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 200px 200px 200px;
 }
 
@@ -45,9 +45,20 @@ body {
 	text-align: center;
 }
 
+.txt1 {
+	font-family: 'Andale Mono', monospace;
+	font-size: 25px;
+	font-weight: bold;
 
+}
 
+.txt2 {
+	font-family: 'Andale Mono', monospace;
+	font-size: 17px;
+	font-style: italic;
 
+}
+}
 
 
 
