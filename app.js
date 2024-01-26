@@ -16,7 +16,7 @@ btn1.addEventListener("click", function(){
 		tg.MainButton.hide();
 	}
 	else {
-		tg.MainButton.setText("Вы выбрали товар 1!");
+		tg.MainButton.setText("Купить AirPods Pro 2");
 		item = "1";
 		tg.MainButton.show();
 	}
@@ -27,7 +27,7 @@ btn2.addEventListener("click", function(){
 		tg.MainButton.hide();
 	}
 	else {
-		tg.MainButton.setText("Вы выбрали товар 2!");
+		tg.MainButton.setText("Купить AirPods 3");
 		item = "2";
 		tg.MainButton.show();
 	}
@@ -35,7 +35,6 @@ btn2.addEventListener("click", function(){
 
 
 
-let usercard = document.getElementById("usercard");
 
 
 
