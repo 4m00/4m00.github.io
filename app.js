@@ -21,6 +21,10 @@ btn1.addEventListener("click", function(){
         tg.MainButton.setText("Купить AirPods Pro 2");
         item = "1";
         tg.MainButton.show();
+        // Send item data to bot after displaying the payment form
+        tg.sendInvoiceData({
+            item_id: item
+        });
     }
 });
 
@@ -35,6 +39,10 @@ btn2.addEventListener("click", function(){
         tg.MainButton.setText("Купить AirPods 3");
         item = "2";
         tg.MainButton.show();
+        // Send item data to bot after displaying the payment form
+        tg.sendInvoiceData({
+            item_id: item
+        });
     }
 });
 
