@@ -19,4 +19,3 @@ btn2.addEventListener("click", function() {
     tg.sendInvoiceData({ item_id: "2" }); // Send item data before closing
     tg.close(); // Close Web App immediately
 });
-
