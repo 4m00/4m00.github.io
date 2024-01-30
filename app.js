@@ -37,3 +37,8 @@ btn2.addEventListener("click", function(){
         tg.MainButton.show();
     }
 });
+
+// Add an event listener for successful payment
+tg.PaymentForm.onSuccess(function() {
+    tg.close();
+});
