@@ -7,67 +7,62 @@ body {
 }
 
 .container {
-	max-width: 390px;
+	max-width: 600px;
+	margin: 20px auto;
 }
 
 .inner {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 200px 200px 200px;
+	grid-gap: 20px;
 }
 
 .img {
-	width: 150px;
+	width: 100%;
+	max-width: 150px;
 }
 
 .item {
 	text-align: center;
+	background: var(--tg-theme-bg-color);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn {
 	display: inline-block;
 	padding: 10px 20px;
 	border: none;
-	background: rgb(248, 168, 24);
-	border-radius: 10px;
+	background: var(--tg-theme-primary-color);
+	border-radius: 5px;
 	color: #fff;
 	text-transform: uppercase;
 	font-weight: 700;
+	cursor: pointer;
 
 	transition: background .2s linear;
 }
 
 .btn:hover {
-	background: lightgreen;
+	background: var(--tg-theme-secondary-color);
 }
 
 .usercard {
 	text-align: center;
+	margin-top: 20px;
 }
 
 .txt1 {
-	font-family: 'Lucida Sans Unicode', sans-serif;
-	font-size: 25px;
+	font-family: 'Arial', sans-serif;
+	font-size: 20px;
 	font-weight: bold;
-
+	margin-bottom: 10px;
 }
 
 .txt2 {
-	font-family: 'Lucida Console', monospace;
-	font-size: 17px;
+	font-family: 'Arial', sans-serif;
+	font-size: 16px;
 	font-style: italic;
-
+	color: #777;
 }
-}
-
-
-
-
-
-
-
-
-
-
-
-
