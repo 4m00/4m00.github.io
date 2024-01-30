@@ -10,14 +10,28 @@ let item = "";
 let btn1 = document.getElementById("btn1");
 let btn2 = document.getElementById("btn2");
 
-btn1.addEventListener("click", function() {
-    tg.sendInvoiceData({ item_id: "1" }).then(() => {
-        tg.close(); // Close Web App after sending invoice data
-    });
+btn1.addEventListener("click", function () {
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+        tg.close();
+    } else {
+        tg.MainButton.setText("Купить AirPods Pro 2");
+        item = "1";
+        tg.MainButton.show();
+    }
+    // Send message to bot with selected item information
+    tg.sendMessage({ web_app_data: { data: item } });
 });
 
-btn2.addEventListener("click", function() {
-    tg.sendInvoiceData({ item_id: "2" }).then(() => {
-        tg.close(); // Close Web App after sending invoice data
-    });
+btn2.addEventListener("click", function () {
+    if (tg.MainButton.isVisible) {
+        tg.MainButton.hide();
+        tg.close();
+    } else {
+        tg.MainButton.setText("Купить AirPods 3");
+        item = "2";
+        tg.MainButton.show();
+    }
+    // Send message to bot with selected item information
+    tg.sendMessage({ web_app_data: { data: item } });
 });
