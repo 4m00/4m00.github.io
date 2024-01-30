@@ -1,74 +1,73 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-size: 18px;
-    color: var(--tg-theme-text-color);
-    background: var(--tg-theme-bg-color);
+	margin: 0;
+	padding: 0;
+	font-size: 18px;
+	color: var(--tg-theme-text-color);
+	background: var(--tg-theme-bg-color);
 }
 
 .container {
-    max-width: 390px;
+	max-width: 390px;
 }
 
 .inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 200px 200px 200px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 200px 200px 200px;
 }
 
 .img {
-    width: 150px;
+	width: 150px;
 }
 
 .item {
-    text-align: center;
+	text-align: center;
 }
 
 .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    border: none;
-    background: rgb(248, 168, 24);
-    border-radius: 10px;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 700;
-    transition: background .2s linear;
+	display: inline-block;
+	padding: 10px 20px;
+	border: none;
+	background: rgb(248, 168, 24);
+	border-radius: 10px;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: 700;
+
+	transition: background .2s linear;
 }
 
 .btn:hover {
-    background: lightgreen;
+	background: lightgreen;
 }
 
 .usercard {
-    text-align: center;
+	text-align: center;
 }
 
 .txt1 {
-    font-family: 'Lucida Sans Unicode', sans-serif;
-    font-size: 25px;
-    font-weight: bold;
+	font-family: 'Lucida Sans Unicode', sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+
 }
 
 .txt2 {
-    font-family: 'Lucida Console', monospace;
-    font-size: 17px;
-    font-style: italic;
+	font-family: 'Lucida Console', monospace;
+	font-size: 17px;
+	font-style: italic;
+
+}
 }
 
-#cartBtn {
-    background: #007bff;
-    margin-top: 10px;
-    position: relative;
-}
 
-#cartCounter {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    background: red;
-    color: #fff;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 14px;
-}
+
+
+
+
+
+
+
+
+
+
