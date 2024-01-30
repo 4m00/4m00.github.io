@@ -35,7 +35,7 @@ body {
   display: inline-block;
   padding: 10px 20px;
   border: none;
-  background: var(--tg-theme-primary-color);
+  background: #3498db; /* Updated to a blue color for better visibility on light backgrounds */
   border-radius: 5px;
   color: #fff;
   text-transform: uppercase;
@@ -45,7 +45,7 @@ body {
 }
 
 .btn:hover {
-  background: var(--tg-theme-secondary-color);
+  background: #2980b9; /* Darker shade on hover */
 }
 
 .usercard {
@@ -62,7 +62,7 @@ body {
 
 .txt2 {
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 18px; /* Increased font size for better visibility */
   font-style: italic;
-  color: #777;
+  color: #555; /* Darkened the text color */
 }
