@@ -35,11 +35,38 @@ function toggleCartItem(productName, price) {
     }
 
     updateCartCounter();
+    updateBuyButton();
+}
+
+function removeCartItem(productName) {
+    let existingItemIndex = cart.findIndex(item => item.name === productName);
+
+    if (existingItemIndex !== -1) {
+        let existingItem = cart[existingItemIndex];
+        existingItem.quantity--;
+
+        if (existingItem.quantity <= 0) {
+            cart.splice(existingItemIndex, 1);
+        }
+
+        updateCartCounter();
+        updateBuyButton();
+    }
 }
 
 function updateCartCounter() {
     let totalItems = cart.reduce((total, item) => total + item.quantity, 0);
     cartCounter.innerText = totalItems > 0 ? totalItems : "";
+}
+
+function updateBuyButton() {
+    let productInCart = cart.find(item => item.quantity > 0);
+    
+    if (productInCart) {
+        tg.MainButton.setText(`-${productInCart.quantity} ${productInCart.name} +`);
+    } else {
+        tg.MainButton.setText("Купить");
+    }
 }
 
 Telegram.WebApp.onEvent("mainButtonClicked", function(){
