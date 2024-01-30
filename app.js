@@ -11,11 +11,13 @@ let btn1 = document.getElementById("btn1");
 let btn2 = document.getElementById("btn2");
 
 btn1.addEventListener("click", function() {
-    tg.sendInvoiceData({ item_id: "1" }); // Send item data before closing
-    tg.close(); // Close Web App immediately
+    tg.sendInvoiceData({ item_id: "1" }).then(() => {
+        tg.close(); // Close Web App after sending invoice data
+    });
 });
 
 btn2.addEventListener("click", function() {
-    tg.sendInvoiceData({ item_id: "2" }); // Send item data before closing
-    tg.close(); // Close Web App immediately
+    tg.sendInvoiceData({ item_id: "2" }).then(() => {
+        tg.close(); // Close Web App after sending invoice data
+    });
 });
