@@ -10,30 +10,38 @@ let item = "";
 let btn1 = document.getElementById("btn1");
 let btn2 = document.getElementById("btn2");
 
-btn1.addEventListener("click", function () {
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-        // Send message to bot with selected item information
-        tg.sendMessage({ web_app_data: { data: "1" } });
-        // Close the Web App
-        tg.close();
-    } else {
-        tg.MainButton.setText("Купить AirPods Pro 2");
-        item = "1";
-        tg.MainButton.show();
-    }
+btn1.addEventListener("click", function(){
+	if (tg.MainButton.isVisible) {
+		tg.MainButton.hide();
+	}
+	else {
+		tg.MainButton.setText("Приобрести AirPods Pro 2");
+		item = "1";
+		tg.MainButton.show();
+	}
 });
 
-btn2.addEventListener("click", function () {
-    if (tg.MainButton.isVisible) {
-        tg.MainButton.hide();
-        // Send message to bot with selected item information
-        tg.sendMessage({ web_app_data: { data: "2" } });
-        // Close the Web App
-        tg.close();
-    } else {
-        tg.MainButton.setText("Купить AirPods 3");
-        item = "2";
-        tg.MainButton.show();
-    }
+btn2.addEventListener("click", function(){
+	if (tg.MainButton.isVisible) {
+		tg.MainButton.hide();
+	}
+	else {
+		tg.MainButton.setText("Приобрести AirPods 3");
+		item = "2";
+		tg.MainButton.show();
+	}
 });
+
+Telegram.WebApp.onEvent("mainButtonClicked", function(){
+	tg.sendData(item);
+});
+
+
+let usercard = document.getElementById("usercard");
+
+let p = document.createElement("p");
+
+p.innerText = `${tg.initDataUnsafe.user.first_name}
+${tg.initDataUnsafe.user.last_name}`;
+
+usercard.appendChild(p);
