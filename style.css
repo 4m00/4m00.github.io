@@ -31,7 +31,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.btn {
+.btn-buy {
   display: inline-block;
   padding: 10px 20px;
   border: none;
@@ -44,8 +44,22 @@ body {
   transition: background 0.2s linear;
 }
 
-.btn:hover {
+.btn-quantity {
+  padding: 5px 10px;
+  background: #3498db;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s linear;
+}
+
+.btn-quantity:hover {
   background: #2980b9;
+}
+
+.quantity {
+  display: none;
 }
 
 .usercard {
@@ -64,26 +78,4 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   font-style: italic;
-}
-
-/* Add styles for quantity display and +/- buttons */
-.quantity {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 10px;
-}
-
-.btn-quantity {
-  padding: 5px 10px;
-  background: #3498db;
-  border: none;
-  border-radius: 3px;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s linear;
-}
-
-.btn-quantity:hover {
-  background: #2980b9;
 }
