@@ -23,17 +23,17 @@ function updateQuantity(index) {
   let plusBtn = document.getElementById(`plus-btn${index + 1}`);
 
   if (item.quantity > 0) {
-    quantityDisplay.style.display = 'inline'; // Show quantity
+    quantityDisplay.style.display = 'inline';
     buyBtn.style.display = 'none';
-    quantityControls.style.display = 'flex'; // Show buttons
-    minusBtn.classList.add('show'); // Show minus button
-    plusBtn.classList.add('show'); // Show plus button
+    quantityControls.style.display = 'flex';
+    minusBtn.classList.add('show');
+    plusBtn.classList.add('show');
   } else {
-    quantityDisplay.style.display = 'none'; // Hide quantity
+    quantityDisplay.style.display = 'none';
     buyBtn.style.display = 'inline';
-    quantityControls.style.display = 'none'; // Hide buttons
-    minusBtn.classList.remove('show'); // Hide minus button
-    plusBtn.classList.remove('show'); // Hide plus button
+    quantityControls.style.display = 'none';
+    minusBtn.classList.remove('show');
+    plusBtn.classList.remove('show');
   }
 
   quantityDisplay.textContent = item.quantity;
@@ -43,7 +43,6 @@ function updateQuantity(index) {
   const tgButton = document.getElementById('tg-button');
   if (hasSelectedItems) {
     tgButton.style.display = 'inline';
-    tgButton.addEventListener('click', sendAndClose);
   } else {
     tgButton.style.display = 'none';
   }
@@ -92,12 +91,11 @@ function sendAndClose() {
   tg.close();
 }
 
+// Telegram button event listeners using tg.MainButton
 tg.MainButton.onVisible(function () {
   if (selectedItem !== null) {
     tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
   }
 });
 
-tg.MainButton.onClick(function () {
-  tg.sendData(selectedItem);
-});
+tg.MainButton.onClick(sendAndClose);
