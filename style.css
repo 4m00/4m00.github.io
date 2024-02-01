@@ -13,14 +13,9 @@ body {
 }
 
 .inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px; /* Set the grid gap to the original value */
-}
-
-.img {
-  width: 100%;
-  max-width: 100%; /* Adjust the maximum width to make the cards wider */
+  display: flex;
+  justify-content: space-between; /* Maintain the original distance between cards */
+  margin: 0 -5px; /* Add negative margin to counteract spacing */
 }
 
 .item {
@@ -28,9 +23,15 @@ body {
   background: var(--tg-theme-bg-color);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: calc(50% - 5px); /* Adjust the width to maintain the original distance between cards */
+  flex: 1; /* Make the cards take equal width */
   border: 1px solid #ccc;
-  margin: 0;
+  margin: 0 5px; /* Adjust margin to add space between cards */
+  padding: 10px; /* Add padding for better appearance */
+}
+
+.img {
+  width: 100%;
+  max-width: 100%; /* Allow images to take full width of the card */
 }
 
 .buy-btn,
