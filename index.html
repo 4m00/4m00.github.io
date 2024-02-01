@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-	<title>ElectricShop</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <title>ElectricShop</title>
 </head>
 <body>
-	<div class="container">
-		<div class="inner">
-			<div class="item">
-				<p class="txt1">AirPods Pro 2</p>
-				<img src="1.png" alt="" class="img">
-				<p class="txt2">9000 ₽</p>
-				<button class="btn" id="btn1">Купить</button>
-			</div>
-			<div class="item">
-				<p class="txt1">AirPods 3</p>
-				<img src="2.png" alt="" class="img">
-				<p class="txt2">8000 ₽</p>
-				<button class="btn" id="btn2">Купить</button>
-			</div>
-		</div>
-	</div>
-	<div class="usercard" id="usercard">
-		
-	</div>
+  <div class="container">
+    <div class="inner">
+      <div class="item">
+        <p class="txt1">AirPods Pro 2</p>
+        <img src="1.png" alt="" class="img">
+        <p class="txt2">9000 ₽</p>
+        <div class="quantity">
+          <button class="btn-quantity" id="btn-minus1">-</button>
+          <span id="quantity-display1">0</span>
+          <button class="btn-quantity" id="btn-plus1">+</button>
+        </div>
+      </div>
+      <div class="item">
+        <p class="txt1">AirPods 3</p>
+        <img src="2.png" alt="" class="img">
+        <p class="txt2">8000 ₽</p>
+        <div class="quantity">
+          <button class="btn-quantity" id="btn-minus2">-</button>
+          <span id="quantity-display2">0</span>
+          <button class="btn-quantity" id="btn-plus2">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="usercard" id="usercard"></div>
 
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
 	<script src="app.js"></script>

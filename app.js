@@ -1,47 +1,52 @@
 let tg = window.Telegram.WebApp;
-
 tg.expand();
-
 tg.MainButton.textColor = '#FFFFFF';
 tg.MainButton.color = '#2cab37';
 
-let item = "";
+let item1Quantity = 0;
+let item2Quantity = 0;
 
-let btn1 = document.getElementById("btn1");
-let btn2 = document.getElementById("btn2");
+let btnMinus1 = document.getElementById("btn-minus1");
+let btnPlus1 = document.getElementById("btn-plus1");
+let quantityDisplay1 = document.getElementById("quantity-display1");
 
-btn1.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Приобрести AirPods Pro 2");
-		item = "1";
-		tg.MainButton.show();
-	}
+let btnMinus2 = document.getElementById("btn-minus2");
+let btnPlus2 = document.getElementById("btn-plus2");
+let quantityDisplay2 = document.getElementById("quantity-display2");
+
+let buyBtn = document.getElementById("buy-btn");
+
+btnMinus1.addEventListener("click", function () {
+  item1Quantity = Math.max(0, item1Quantity - 1);
+  updateQuantityDisplay(quantityDisplay1, item1Quantity);
 });
 
-btn2.addEventListener("click", function(){
-	if (tg.MainButton.isVisible) {
-		tg.MainButton.hide();
-	}
-	else {
-		tg.MainButton.setText("Приобрести AirPods 3");
-		item = "2";
-		tg.MainButton.show();
-	}
+btnPlus1.addEventListener("click", function () {
+  item1Quantity++;
+  updateQuantityDisplay(quantityDisplay1, item1Quantity);
 });
 
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
+btnMinus2.addEventListener("click", function () {
+  item2Quantity = Math.max(0, item2Quantity - 1);
+  updateQuantityDisplay(quantityDisplay2, item2Quantity);
 });
 
+btnPlus2.addEventListener("click", function () {
+  item2Quantity++;
+  updateQuantityDisplay(quantityDisplay2, item2Quantity);
+});
 
-let usercard = document.getElementById("usercard");
+buyBtn.addEventListener("click", function () {
+  let totalQuantity = item1Quantity + item2Quantity;
+  if (totalQuantity > 0) {
+    // Send data to the bot
+    tg.sendData(`buy_${item1Quantity}_1_${item2Quantity}_2`);
+  } else {
+    // Handle case when no items are selected
+    tg.sendData('buy_0');
+  }
+});
 
-let p = document.createElement("p");
-
-p.innerText = `${tg.initDataUnsafe.user.first_name}
-${tg.initDataUnsafe.user.last_name}`;
-
-usercard.appendChild(p);
+function updateQuantityDisplay(element, quantity) {
+  element.innerText = quantity;
+}
