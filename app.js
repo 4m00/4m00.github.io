@@ -68,13 +68,14 @@ for (let i = 0; i < items.length; i++) {
   });
 }
 
-const tgButton = document.createElement('button');
-tgButton.textContent = 'Отправить в Telegram и закрыть';
-tgButton.id = 'tg-button';
-tgButton.classList.add('buy-btn');
-document.getElementById('usercard').appendChild(tgButton);
+// Telegram button event listener using tg.MainButton
+tg.MainButton.onVisible(function () {
+  if (selectedItem !== null) {
+    tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
+  }
+});
 
-function sendPurchaseData() {
+tg.MainButton.onClick(function () {
   let totalPrice = items.reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0);
@@ -84,18 +85,6 @@ function sendPurchaseData() {
     totalPrice: totalPrice,
     selectedItem: selectedItem
   }));
-}
 
-function sendAndClose() {
-  sendPurchaseData();
   tg.close();
-}
-
-// Telegram button event listeners using tg.MainButton
-tg.MainButton.onVisible(function () {
-  if (selectedItem !== null) {
-    tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
-  }
 });
-
-tg.MainButton.onClick(sendAndClose);
