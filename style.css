@@ -53,7 +53,8 @@ body {
 }
 
 .quantity {
-  display: none;
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
   margin-top: 10px;
 }
 
