@@ -9,31 +9,28 @@ body {
 
 .container {
   max-width: 600px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 10px; /* Set the grid gap to the original value */
 }
 
 .img {
   width: 100%;
-  max-width: 150px;
+  max-width: 100%; /* Adjust the maximum width to make the cards wider */
 }
 
 .item {
   text-align: center;
   background: var(--tg-theme-bg-color);
-  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 200px;
-  text-align: center;
+  width: calc(50% - 5px); /* Adjust the width to maintain the original distance between cards */
   border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
+  margin: 0;
 }
 
 .buy-btn,
@@ -53,17 +50,34 @@ body {
 }
 
 .quantity {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 10px;
 }
 
-.minus-btn,
-.plus-btn {
-  width: 20px;
-  height: 20px;
-  background: #ddd;
+.quantity-controls,
+.quantity-display,
+.btn-quantity {
+  display: none;
+}
+
+.quantity-controls .btn-quantity.show,
+.btn-quantity.show {
+  display: inline-block;
+}
+
+.btn-quantity {
+  width: 30px;
+  height: 30px;
+  background: #3498db;
   border: none;
   cursor: pointer;
+  transition: background 0.2s linear;
+}
+
+.btn-quantity:hover {
+  background: #2980b9;
 }
 
 .usercard {

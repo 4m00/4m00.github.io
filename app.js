@@ -1,12 +1,12 @@
 let items = [
   {
-    name: 'Товар 1',
-    price: 100,
+    name: 'AirPods Pro 2',
+    price: 9000,
     quantity: 0
   },
   {
-    name: 'Товар 2',
-    price: 200,
+    name: 'AirPods 3',
+    price: 8000,
     quantity: 0
   }
 ];
@@ -15,18 +15,27 @@ let items = [
 function updateQuantity(index) {
   let item = items[index];
 
-  document.getElementById(`quantity${index + 1}`).textContent = item.quantity;
-
+  let quantityDisplay = document.getElementById(`quantity${index + 1}`);
   let buyBtn = document.getElementById(`buy-btn${index + 1}`);
   let quantityControls = document.getElementById(`quantity-controls${index + 1}`);
+  let minusBtn = document.getElementById(`minus-btn${index + 1}`);
+  let plusBtn = document.getElementById(`plus-btn${index + 1}`);
 
   if (item.quantity > 0) {
+    quantityDisplay.style.display = 'inline'; // Show quantity
     buyBtn.style.display = 'none';
-    quantityControls.style.display = 'flex';
+    quantityControls.style.display = 'flex'; // Show buttons
+    minusBtn.classList.add('show'); // Show minus button
+    plusBtn.classList.add('show'); // Show plus button
   } else {
+    quantityDisplay.style.display = 'none'; // Hide quantity
     buyBtn.style.display = 'inline';
-    quantityControls.style.display = 'none';
+    quantityControls.style.display = 'none'; // Hide buttons
+    minusBtn.classList.remove('show'); // Hide minus button
+    plusBtn.classList.remove('show'); // Hide plus button
   }
+
+  quantityDisplay.textContent = item.quantity;
 }
 
 // Обработка кнопок Купить, + и -
