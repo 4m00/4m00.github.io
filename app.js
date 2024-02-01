@@ -1,58 +1,76 @@
-let tg = window.Telegram.WebApp;
-tg.expand();
-tg.MainButton.textColor = '#FFFFFF';
-tg.MainButton.color = '#2cab37';
+let items = [
+  {
+    name: 'Товар 1',
+    price: 100,
+    quantity: 0
+  },
+  {
+    name: 'Товар 2', 
+    price: 200,
+    quantity: 0
+  }
+];
 
-let item1Quantity = 0;
-let item2Quantity = 0;
+// Обновление количества товара
+function updateQuantity(index) {
+  let item = items[index];
 
-let buyBtn = document.getElementById("buy-btn");
-let btnMinus1 = document.getElementById("btn-minus1");
-let btnPlus1 = document.getElementById("btn-plus1");
-let quantityDisplay1 = document.getElementById("quantity-display1");
+  document.getElementById(`quantity${index+1}`).textContent = item.quantity;
 
-let btnMinus2 = document.getElementById("btn-minus2");
-let btnPlus2 = document.getElementById("btn-plus2");
-let quantityDisplay2 = document.getElementById("quantity-display2");
+  let buyBtn = document.getElementById(`buy-btn${index+1}`);
+  if(item.quantity > 0) {
+    buyBtn.style.display = 'none';
 
-buyBtn.addEventListener("click", function () {
-  buyBtn.style.display = 'none';
-  btnMinus1.style.display = 'inline';
-  btnPlus1.style.display = 'inline';
-  quantityDisplay1.style.display = 'inline';
-  btnMinus2.style.display = 'inline';
-  btnPlus2.style.display = 'inline';
-  quantityDisplay2.style.display = 'inline';
-});
+    document.getElementById(`minus-btn${index+1}`).style.display = 'inline';
+    document.getElementById(`plus-btn${index+1}`).style.display = 'inline';
+    document.getElementById(`quantity-controls${index+1}`).style.display = 'block';
+  } else {
+    buyBtn.style.display = 'inline';
 
-btnMinus1.addEventListener("click", function () {
-  item1Quantity = Math.max(0, item1Quantity - 1);
-  updateQuantityDisplay(quantityDisplay1, item1Quantity);
-});
-
-btnPlus1.addEventListener("click", function () {
-  item1Quantity++;
-  updateQuantityDisplay(quantityDisplay1, item1Quantity);
-});
-
-btnMinus2.addEventListener("click", function () {
-  item2Quantity = Math.max(0, item2Quantity - 1);
-  updateQuantityDisplay(quantityDisplay2, item2Quantity);
-});
-
-btnPlus2.addEventListener("click", function () {
-  item2Quantity++;
-  updateQuantityDisplay(quantityDisplay2, item2Quantity);
-});
-
-function updateQuantityDisplay(element, quantity) {
-  element.innerText = quantity;
+    document.getElementById(`minus-btn${index+1}`).style.display = 'none';
+    document.getElementById(`plus-btn${index+1}`).style.display = 'none';
+    document.getElementById(`quantity-controls${index+1}`).style.display = 'none';
+  }
 }
 
-let usercard = document.getElementById("usercard");
+// Обработка кнопок Купить
+document.getElementById('buy-btn1').addEventListener('click', () => {
+  items[0].quantity++;
+  updateQuantity(0);
+});
 
-let p = document.createElement("p");
+document.getElementById('buy-btn2').addEventListener('click', () => {
+  items[1].quantity++;
+  updateQuantity(1); 
+});
 
-p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
+// Обработка кнопок + и -
+document.getElementById('plus-btn1').addEventListener('click', () => {
+  items[0].quantity++;
+  updateQuantity(0);
+});
 
-usercard.appendChild(p);
+document.getElementById('minus-btn1').addEventListener('click', () => {
+  items[0].quantity = Math.max(0, items[0].quantity - 1);
+  updateQuantity(0);
+});
+
+document.getElementById('plus-btn2').addEventListener('click', () => {
+  items[1].quantity++;
+  updateQuantity(1);
+});
+
+document.getElementById('minus-btn2').addEventListener('click', () => {
+  items[1].quantity = Math.max(0, items[1].quantity - 1);
+  updateQuantity(1);
+});
+
+// Отправка данных в бот
+let totalPrice = items.reduce((sum, item) => {
+  return sum + item.price * item.quantity;
+}, 0);
+
+tg.sendData(JSON.stringify({
+  items: items,
+  totalPrice: totalPrice
+}));

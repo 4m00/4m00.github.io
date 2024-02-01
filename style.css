@@ -29,6 +29,11 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
 }
 
 .btn-buy {
@@ -60,6 +65,25 @@ body {
 
 .quantity {
   display: none;
+  margin-top: 10px;
+}
+
+.minus-btn, 
+.plus-btn {
+  width: 20px;
+  height: 20px;
+  background: #ddd;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background: green;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .usercard {
