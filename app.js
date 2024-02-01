@@ -11,6 +11,8 @@ let items = [
   }
 ];
 
+let selectedItem = null;
+
 // Обновление количества товара
 function updateQuantity(index) {
   let item = items[index];
@@ -54,20 +56,20 @@ function updateQuantity(index) {
 for (let i = 0; i < items.length; i++) {
   document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
+    selectedItem = i + 1; // Set the selected item
     updateQuantity(i);
-    sendPurchaseData();
   });
 
   document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
+    selectedItem = i + 1; // Set the selected item
     updateQuantity(i);
-    sendPurchaseData();
   });
 
   document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity = Math.max(0, items[i].quantity - 1);
+    selectedItem = i + 1; // Set the selected item
     updateQuantity(i);
-    sendPurchaseData();
   });
 }
 
@@ -87,7 +89,8 @@ function sendPurchaseData() {
   // Mocking tg.sendData function, replace it with your actual implementation
   tg.sendData(JSON.stringify({
     items: items,
-    totalPrice: totalPrice
+    totalPrice: totalPrice,
+    selectedItem: selectedItem
   }));
 }
 
@@ -97,17 +100,35 @@ function sendAndClose() {
   tg.close();
 }
 
-// Assuming you have a button with id 'custom-btn'
-let customBtn = document.getElementById('custom-btn');
-
-customBtn.addEventListener('click', function () {
-  // Check if the Telegram button is visible
-  if (tgButton.style.display === 'inline') {
-    tgButton.style.display = 'none';  // Hide Telegram button
-  } else {
-    // Show Telegram button and set its text
-    tgButton.style.display = 'inline';
-    tgButton.addEventListener('click', sendAndClose);
+// Telegram button event listeners
+tg.MainButton.onVisible(function () {
+  if (selectedItem !== null) {
+    tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
   }
-  // Additional logic for your custom button if needed
 });
+
+tg.MainButton.onClick(function () {
+  tg.sendData(selectedItem);
+});
+
+// Additional logic for your custom button if needed
+let customBtn1 = document.getElementById('custom-btn1');
+let customBtn2 = document.getElementById('custom-btn2');
+
+customBtn1.addEventListener('click', function () {
+  toggleTelegramButton('AirPods Pro 2', 1);
+});
+
+customBtn2.addEventListener('click', function () {
+  toggleTelegramButton('AirPods 3', 2);
+});
+
+function toggleTelegramButton(itemName, itemIndex) {
+  if (tg.MainButton.isVisible) {
+    tg.MainButton.hide();
+  } else {
+    tg.MainButton.setText(`Приобрести ${itemName}`);
+    selectedItem = itemIndex;
+    tg.MainButton.show();
+  }
+}
