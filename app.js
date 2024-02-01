@@ -40,7 +40,7 @@ function updateQuantity(index) {
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const tgButton = document.getElementById('tg-button');
+  const tgButton = document.getElementById(`buy-btn${selectedItem}`);
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
   } else {
@@ -72,6 +72,8 @@ for (let i = 0; i < items.length; i++) {
 tg.MainButton.onVisible(function () {
   if (selectedItem !== null) {
     tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
+    const tgButton = document.getElementById(`buy-btn${selectedItem}`);
+    tgButton.style.display = 'inline';
   }
 });
 
