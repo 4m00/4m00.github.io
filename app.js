@@ -38,12 +38,15 @@ function updateQuantity(index) {
 
   quantityDisplay.textContent = item.quantity;
 
-  // Move the visibility check after updating quantity
-  const tgButton = document.getElementById('tg-button');
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
+  const tgButton = document.getElementById('tg-button');
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
+    tg.MainButton.setParams({
+      text: 'Приобрести',
+      explicitelyAllowedUpdates: ['main_button']
+    });
   } else {
     tgButton.style.display = 'none';
   }
