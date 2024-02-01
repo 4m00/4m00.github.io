@@ -39,7 +39,7 @@ btnPlus2.addEventListener("click", function () {
 buyBtn.addEventListener("click", function () {
   let totalQuantity = item1Quantity + item2Quantity;
   if (totalQuantity > 0) {
-    // Send data to the bot
+    // Send data to the bot directly
     tg.sendData(`buy_${item1Quantity}_1_${item2Quantity}_2`);
   } else {
     // Handle case when no items are selected
@@ -51,16 +51,10 @@ function updateQuantityDisplay(element, quantity) {
   element.innerText = quantity;
 }
 
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
-	tg.sendData(item);
-});
-
 let usercard = document.getElementById("usercard");
 
 let p = document.createElement("p");
 
-p.innerText = `${tg.initDataUnsafe.user.first_name}
-${tg.initDataUnsafe.user.last_name}`;
+p.innerText = `${tg.initDataUnsafe.user.first_name} ${tg.initDataUnsafe.user.last_name}`;
 
 usercard.appendChild(p);
-
