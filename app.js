@@ -38,10 +38,10 @@ function updateQuantity(index) {
 
   quantityDisplay.textContent = item.quantity;
 
-  const hasSelectedItems = items.some(item => item.quantity > 0);
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const tgButton = document.getElementById('tg-button');
-  if (hasSelectedItems) {
+  if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
   } else {
     tgButton.style.display = 'none';
@@ -76,9 +76,7 @@ tg.MainButton.onVisible(function () {
 });
 
 tg.MainButton.onClick(function () {
-  let totalPrice = items.reduce((sum, item) => {
-    return sum + item.price * item.quantity;
-  }, 0);
+  let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   tg.sendData(JSON.stringify({
     items: items,
