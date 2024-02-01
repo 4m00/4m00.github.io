@@ -8,24 +8,24 @@ body {
 }
 
 .container {
-  max-width: 400px;
+  max-width: 380px;
   margin: 10px auto;
 }
 
 .inner {
   display: flex;
   justify-content: space-between;
-  margin: 0 -5px;
+  margin: 0 -3px;
 }
 
 .item {
   text-align: center;
   background: var(--tg-theme-bg-color);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  flex-basis: calc(50% - 10px); /* Adjusted flex-basis for two cards in a row with margin */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex-basis: calc(50% - 6px); /* Adjusted flex-basis for two cards in a row with margin */
   border: 1px solid #ccc;
-  margin: 0 5px;
+  margin: 0 3px;
   padding: 10px;
 }
 
@@ -39,7 +39,7 @@ body {
   padding: 8px 12px;
   background: #3498db;
   border: none;
-  border-radius: 3px;
+  border-radius: 2px;
   color: #fff;
   cursor: pointer;
   transition: background 0.2s linear;
