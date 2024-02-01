@@ -36,6 +36,18 @@ function updateQuantity(index) {
   }
 
   quantityDisplay.textContent = item.quantity;
+
+  // Check if any item has a quantity greater than 0
+  const hasSelectedItems = items.some(item => item.quantity > 0);
+
+  // Display or hide Telegram button based on the condition
+  const tgButton = document.getElementById('tg-button');
+  if (hasSelectedItems) {
+    tgButton.style.display = 'inline';
+    tgButton.addEventListener('click', sendAndClose);
+  } else {
+    tgButton.style.display = 'none';
+  }
 }
 
 // Обработка кнопок Купить, + и -
@@ -59,14 +71,28 @@ for (let i = 0; i < items.length; i++) {
   });
 }
 
+// Создание и добавление кнопки Telegram
+const tgButton = document.createElement('button');
+tgButton.textContent = 'Отправить в Telegram и закрыть';
+tgButton.id = 'tg-button';
+tgButton.classList.add('buy-btn');
+document.getElementById('usercard').appendChild(tgButton);
+
 // Отправка данных в бот
 function sendPurchaseData() {
   let totalPrice = items.reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0);
 
+  // Mocking tg.sendData function, replace it with your actual implementation
   tg.sendData(JSON.stringify({
     items: items,
     totalPrice: totalPrice
   }));
+}
+
+// Функция для отправки данных и закрытия Web App
+function sendAndClose() {
+  sendPurchaseData();
+  tg.close();
 }
