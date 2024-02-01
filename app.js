@@ -96,3 +96,18 @@ function sendAndClose() {
   sendPurchaseData();
   tg.close();
 }
+
+// Assuming you have a button with id 'custom-btn'
+let customBtn = document.getElementById('custom-btn');
+
+customBtn.addEventListener('click', function () {
+  // Check if the Telegram button is visible
+  if (tgButton.style.display === 'inline') {
+    tgButton.style.display = 'none';  // Hide Telegram button
+  } else {
+    // Show Telegram button and set its text
+    tgButton.style.display = 'inline';
+    tgButton.addEventListener('click', sendAndClose);
+  }
+  // Additional logic for your custom button if needed
+});
