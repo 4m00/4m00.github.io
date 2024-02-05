@@ -49,25 +49,26 @@ function updateQuantity(index) {
     });
   } else {
     tgButton.style.display = 'none';
+    tg.MainButton.hide();
   }
 }
 
 for (let i = 0; i < items.length; i++) {
   document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItem = i + 1;
+    selectedItem = items[i].name;
     updateQuantity(i);
   });
 
   document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItem = i + 1;
+    selectedItem = items[i].name;
     updateQuantity(i);
   });
 
   document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity = Math.max(0, items[i].quantity - 1);
-    selectedItem = i + 1;
+    selectedItem = items[i].name;
     updateQuantity(i);
   });
 }
@@ -80,11 +81,12 @@ tg.MainButton.onVisible(function () {
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
     tg.MainButton.setParams({
-      text: 'Приобрести',
+      text: 'Приобрести ' + selectedItem, // Update the text based on the selected item
       explicitelyAllowedUpdates: ['main_button']
     });
   } else {
     tgButton.style.display = 'none';
+    tg.MainButton.hide();
   }
 });
 
