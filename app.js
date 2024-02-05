@@ -11,7 +11,7 @@ let items = [
   }
 ];
 
-let selectedItems = []; // Updated to store multiple selected items
+let selectedItems = [];
 
 function updateQuantity(index) {
   let item = items[index];
@@ -49,7 +49,7 @@ function updateQuantity(index) {
     });
   } else {
     tgButton.style.display = 'none';
-    tg.MainButton.hide();
+    tg.MainButton.hide(); // Hide the Telegram button explicitly
   }
 }
 
@@ -60,19 +60,19 @@ function updateSelectedItems() {
 for (let i = 0; i < items.length; i++) {
   document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    updateSelectedItems(); // Update selected items whenever an item is bought
+    updateSelectedItems();
     updateQuantity(i);
   });
 
   document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    updateSelectedItems(); // Update selected items whenever an item quantity is increased
+    updateSelectedItems();
     updateQuantity(i);
   });
 
   document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity = Math.max(0, items[i].quantity - 1);
-    updateSelectedItems(); // Update selected items whenever an item quantity is decreased
+    updateSelectedItems();
     updateQuantity(i);
   });
 }
@@ -90,18 +90,18 @@ tg.MainButton.onVisible(function () {
     });
   } else {
     tgButton.style.display = 'none';
-    tg.MainButton.hide();
+    tg.MainButton.hide(); // Hide the Telegram button explicitly
   }
 });
 
 document.getElementById('tg-button').addEventListener('click', function () {
-  updateSelectedItems(); // Update selected items before sending data
+  updateSelectedItems();
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   tg.sendData(JSON.stringify({
-    items: selectedItems, // Send selected items instead of all items
+    items: selectedItems,
     totalPrice: totalPrice,
-    selectedItems: selectedItems // Include selected items in the data
+    selectedItems: selectedItems
   }));
 
   tg.close();
