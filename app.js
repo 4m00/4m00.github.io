@@ -74,9 +74,10 @@ tg.MainButton.onVisible(function () {
       text: 'Приобрести',
       explicitelyAllowedUpdates: ['main_button']
     });
+    tg.MainButton.show(); // Explicitly show the Telegram button
   } else {
     tgButton.style.display = 'none';
-    tg.MainButton.hide(); // Hide the Telegram button explicitly
+    tg.MainButton.hide();
   }
 });
 
