@@ -75,11 +75,12 @@ for (let i = 0; i < items.length; i++) {
 // Telegram button event listener using tg.MainButton
 tg.MainButton.onVisible(function () {
   if (selectedItem !== null) {
-    tg.MainButton.setText(`Приобрести ${items[selectedItem - 1].name}`);
+    tg.MainButton.setText(`Приобрести`);
+    document.getElementById('tg-button').style.display = 'inline'; // Ensure the Telegram button is displayed
   }
 });
 
-tg.MainButton.onClick(function () {
+document.getElementById('tg-button').addEventListener('click', function () {
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   tg.sendData(JSON.stringify({
