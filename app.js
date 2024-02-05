@@ -11,7 +11,7 @@ let items = [
   }
 ];
 
-let selectedItem = null;
+let selectedItems = []; // Updated to store multiple selected items
 
 function updateQuantity(index) {
   let item = items[index];
@@ -53,22 +53,26 @@ function updateQuantity(index) {
   }
 }
 
+function updateSelectedItems() {
+  selectedItems = items.filter(item => item.quantity > 0).map(item => ({ name: item.name, quantity: item.quantity }));
+}
+
 for (let i = 0; i < items.length; i++) {
   document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItem = items[i].name;
+    updateSelectedItems(); // Update selected items whenever an item is bought
     updateQuantity(i);
   });
 
   document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItem = items[i].name;
+    updateSelectedItems(); // Update selected items whenever an item quantity is increased
     updateQuantity(i);
   });
 
   document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity = Math.max(0, items[i].quantity - 1);
-    selectedItem = items[i].name;
+    updateSelectedItems(); // Update selected items whenever an item quantity is decreased
     updateQuantity(i);
   });
 }
@@ -81,7 +85,7 @@ tg.MainButton.onVisible(function () {
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
     tg.MainButton.setParams({
-      text: 'Приобрести ' + selectedItem, // Update the text based on the selected item
+      text: 'Приобрести',
       explicitelyAllowedUpdates: ['main_button']
     });
   } else {
@@ -91,12 +95,13 @@ tg.MainButton.onVisible(function () {
 });
 
 document.getElementById('tg-button').addEventListener('click', function () {
+  updateSelectedItems(); // Update selected items before sending data
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   tg.sendData(JSON.stringify({
-    items: items,
+    items: selectedItems, // Send selected items instead of all items
     totalPrice: totalPrice,
-    selectedItem: selectedItem
+    selectedItems: selectedItems // Include selected items in the data
   }));
 
   tg.close();
