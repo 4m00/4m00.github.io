@@ -74,9 +74,17 @@ for (let i = 0; i < items.length; i++) {
 
 // Telegram button event listener using tg.MainButton
 tg.MainButton.onVisible(function () {
-  if (selectedItem !== null) {
-    tg.MainButton.setText(`Приобрести`);
-    document.getElementById('tg-button').style.display = 'inline'; // Ensure the Telegram button is displayed
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const tgButton = document.getElementById('tg-button');
+  if (totalQuantity > 0) {
+    tgButton.style.display = 'inline';
+    tg.MainButton.setParams({
+      text: 'Приобрести',
+      explicitelyAllowedUpdates: ['main_button']
+    });
+  } else {
+    tgButton.style.display = 'none';
   }
 });
 
