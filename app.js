@@ -1,3 +1,4 @@
+// Определение массива товаров с их свойствами
 let items = [
     {
         name: 'AirPods Pro 2',
@@ -11,10 +12,12 @@ let items = [
     }
 ];
 
+// Инициализация переменной для отслеживания выбранного ID товара
 let selectedItemId = null;
 
+// Функция для обновления отображения количества и переключения видимости элементов управления
 function updateQuantity(index) {
-    selectedItemId = index + 1; // Установка selectedItemId здесь
+    selectedItemId = index + 1;
 
     let item = items[index];
     let quantityDisplay = document.getElementById(`quantity${index + 1}`);
@@ -50,6 +53,7 @@ function updateQuantity(index) {
     }
 }
 
+// Добавление обработчиков событий для кнопок для обновления количества
 for (let i = 0; i < items.length; i++) {
     document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
         items[i].quantity++;
@@ -67,7 +71,7 @@ for (let i = 0; i < items.length; i++) {
     });
 }
 
-// Обработчик клика на кнопку Telegram
+// Обработчик события для клика на кнопку Telegram
 document.getElementById('tg-button').addEventListener('click', function () {
     let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     let data = {
