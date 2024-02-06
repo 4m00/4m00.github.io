@@ -63,14 +63,13 @@ for (let i = 0; i < items.length; i++) {
 
 // Обработчик события для клика на кнопку Telegram
 document.getElementById('tg-button').addEventListener('click', function () {
-    let selectedItem = items.find(item => item.selected);
+    let selectedItems = items.filter(item => item.selected);
 
-    if (selectedItem) {
-        let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    if (selectedItems.length > 0) {
+        let totalPrice = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
         let data = {
-            items: items,
-            totalPrice: totalPrice,
-            selectedItem: selectedItem.name // передаем имя выбранного товара, а не его индекс
+            items: selectedItems,
+            totalPrice: totalPrice
         };
         let jsonData = JSON.stringify(data);
 
