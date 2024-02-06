@@ -13,9 +13,12 @@ let items = [
     }
 ];
 
-function updateQuantity(index) {
-    items[index].quantity++;
-    items[index].selected = true;
+function updateQuantity(index, increment) {
+    if (increment) {
+        items[index].quantity++;
+    } else {
+        items[index].quantity = Math.max(0, items[index].quantity - 1);
+    }
 
     let selectedItem = items[index];
 
@@ -46,16 +49,15 @@ function updateQuantity(index) {
 // Добавление обработчиков событий для кнопок для обновления количества
 for (let i = 0; i < items.length; i++) {
     document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
-        updateQuantity(i);
+        updateQuantity(i, true);
     });
 
     document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
-        updateQuantity(i);
+        updateQuantity(i, true);
     });
 
     document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
-        items[i].quantity = Math.max(0, items[i].quantity - 1);
-        updateQuantity(i);
+        updateQuantity(i, false);
     });
 }
 
