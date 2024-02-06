@@ -66,7 +66,6 @@ for (let i = 0; i < items.length; i++) {
 // Обработчик события для клика на кнопку Telegram
 document.getElementById('tg-button').addEventListener('click', function () {
     let selectedItems = items.filter(item => item.selected);
-
     if (selectedItems.length > 0) {
         let totalPrice = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
         let data = {
@@ -74,19 +73,22 @@ document.getElementById('tg-button').addEventListener('click', function () {
             totalPrice: totalPrice
         };
         let jsonData = JSON.stringify(data);
-
         let tg = window.Telegram.WebApp;
 
+        // Создаем дополнительную кнопку MainButton
+        tg.MainButton.enable();
         tg.MainButton.setText(`Приобрести`);
-        tg.MainButton.setColor('#2cab37'); // Устанавливаем цвет кнопки
-        tg.MainButton.setTextColor('#FFFFFF'); // Устанавливаем цвет текста на кнопке
-        tg.MainButton.show();
+        tg.MainButton.setColor('#2cab37');
+        tg.MainButton.setTextColor('#FFFFFF');
 
         tg.MainButton.onClick(function() {
             tg.sendData(jsonData); // Отправляем данные
-            tg.MainButton.hide(); // Скрываем кнопку после нажатия
+            tg.MainButton.disable(); // Отключаем кнопку после нажатия
             tg.close(); // Закрываем веб-приложение
         });
+
+        tg.MainButton.show(); // Показываем кнопку
+
     } else {
         // Отобразить сообщение о том, что нужно выбрать товар
         console.log("Выберите товар перед тем, как нажать на кнопку 'Приобрести'.");
