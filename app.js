@@ -11,7 +11,7 @@ let items = [
   }
 ];
 
-let selectedItems = [];
+let selectedItemId = null;
 
 function updateQuantity(index) {
   let item = items[index];
@@ -37,58 +37,45 @@ function updateQuantity(index) {
   }
 
   quantityDisplay.textContent = item.quantity;
-}
 
-function updateSelectedItems() {
-  selectedItems = items.filter(item => item.quantity > 0).map(item => ({ name: item.name, quantity: item.quantity }));
-}
-
-for (let i = 0; i < items.length; i++) {
-  document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
-    items[i].quantity++;
-    updateSelectedItems();
-    updateQuantity(i);
-  });
-
-  document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
-    items[i].quantity++;
-    updateSelectedItems();
-    updateQuantity(i);
-  });
-
-  document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
-    items[i].quantity = Math.max(0, items[i].quantity - 1);
-    updateSelectedItems();
-    updateQuantity(i);
-  });
-}
-
-// Telegram button event listener using tg.MainButton
-tg.MainButton.onVisible(function () {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const tgButton = document.getElementById('tg-button');
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
-    tg.MainButton.setParams({
-      text: 'Приобрести',
-      explicitelyAllowedUpdates: ['main_button']
-    });
-    tg.MainButton.show(); // Explicitly show the Telegram button
+    tgButton.innerHTML = 'Приобрести'; // Set button text to "Приобрести"
   } else {
     tgButton.style.display = 'none';
-    tg.MainButton.hide();
   }
-});
+}
+
+for (let i = 0; i < items.length; i++) {
+  document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
+    items[i].quantity++;
+    selectedItemId = i + 1;
+    updateQuantity(i);
+  });
+
+  document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
+    items[i].quantity++;
+    selectedItemId = i + 1;
+    updateQuantity(i);
+  });
+
+  document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
+    items[i].quantity = Math.max(0, items[i].quantity - 1);
+    selectedItemId = i + 1;
+    updateQuantity(i);
+  });
+}
 
 document.getElementById('tg-button').addEventListener('click', function () {
-  updateSelectedItems();
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   tg.sendData(JSON.stringify({
-    items: selectedItems,
+    items: items,
     totalPrice: totalPrice,
-    selectedItems: selectedItems
+    selectedItem: selectedItemId
   }));
 
   tg.close();
