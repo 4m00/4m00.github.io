@@ -72,11 +72,27 @@ for (let i = 0; i < items.length; i++) {
 document.getElementById('tg-button').addEventListener('click', function () {
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  tg.sendData(JSON.stringify({
+  // Создаем объект с необходимыми данными
+  let data = {
     items: items,
     totalPrice: totalPrice,
     selectedItem: selectedItemId
-  }));
+  };
 
-  tg.close();
+  // Преобразуем объект в JSON-строку
+  let jsonData = JSON.stringify(data);
+
+  // Отправляем данные через Telegram Web App
+  Telegram.WebApp.sendData(jsonData);
+
+  // Закрываем веб-приложение
+  Telegram.WebApp.close();
+});
+
+// Telegram button event listener using tg.MainButton
+Telegram.MainButton.onVisible(function () {
+  if (selectedItemId !== null) {
+    Telegram.MainButton.setText(`Приобрести`);
+    document.getElementById('tg-button').style.display = 'inline'; // Ensure the Telegram button is displayed
+  }
 });
