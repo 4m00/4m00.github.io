@@ -1,25 +1,24 @@
-// Определение массива товаров с их свойствами
 let items = [
     {
         name: 'AirPods Pro 2',
         price: 9000,
-        quantity: 0
+        quantity: 0,
+        selected: false
     },
     {
         name: 'AirPods 3',
         price: 8000,
-        quantity: 0
+        quantity: 0,
+        selected: false
     }
 ];
 
-// Инициализация переменной для отслеживания выбранного ID товара
-let selectedItemId = null;
-
-// Функция для обновления отображения количества и переключения видимости элементов управления
 function updateQuantity(index) {
-    selectedItemId = index + 1;
+    items[index].quantity++;
+    items[index].selected = true;
 
-    let item = items[index];
+    let selectedItem = items[index];
+
     let quantityDisplay = document.getElementById(`quantity${index + 1}`);
     let buyBtn = document.getElementById(`buy-btn${index + 1}`);
     let quantityControls = document.getElementById(`quantity-controls${index + 1}`);
@@ -27,7 +26,7 @@ function updateQuantity(index) {
     let plusBtn = document.getElementById(`plus-btn${index + 1}`);
     let tgButton = document.getElementById('tg-button');
 
-    if (item.quantity > 0) {
+    if (selectedItem.quantity > 0) {
         quantityDisplay.style.display = 'inline';
         buyBtn.style.display = 'none';
         quantityControls.style.display = 'flex';
@@ -41,21 +40,16 @@ function updateQuantity(index) {
         plusBtn.classList.remove('show');
     }
 
-    quantityDisplay.textContent = item.quantity;
-
-    const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-    tgButton.style.display = totalQuantity > 0 ? 'block' : 'none';
+    quantityDisplay.textContent = selectedItem.quantity;
 }
 
 // Добавление обработчиков событий для кнопок для обновления количества
 for (let i = 0; i < items.length; i++) {
     document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
-        items[i].quantity++;
         updateQuantity(i);
     });
 
     document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
-        items[i].quantity++;
         updateQuantity(i);
     });
 
@@ -67,31 +61,39 @@ for (let i = 0; i < items.length; i++) {
 
 // Обработчик события для клика на кнопку Telegram
 document.getElementById('tg-button').addEventListener('click', function () {
-    let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    let data = {
-        items: items,
-        totalPrice: totalPrice,
-        selectedItem: selectedItemId
-    };
-    let jsonData = JSON.stringify(data);
+    let selectedItem = items.find(item => item.selected);
 
-    // Отправляем данные через Telegram Web App
-    let tg = window.Telegram.WebApp;
+    if (selectedItem) {
+        let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        let data = {
+            items: items,
+            totalPrice: totalPrice,
+            selectedItem: selectedItem.name // передаем имя выбранного товара, а не его индекс
+        };
+        let jsonData = JSON.stringify(data);
 
-    tg.MainButton.setText(`Приобрести`);
-    tg.MainButton.setColor('#2cab37'); // Устанавливаем цвет кнопки
-    tg.MainButton.setTextColor('#FFFFFF'); // Устанавливаем цвет текста на кнопке
-    tg.MainButton.show();
+        let tg = window.Telegram.WebApp;
 
-    tg.MainButton.onClick(function() {
-        tg.sendData(jsonData); // Отправляем данные
-        tg.MainButton.hide(); // Скрываем кнопку после нажатия
-        tg.close(); // Закрываем веб-приложение
-    });
+        tg.MainButton.setText(`Приобрести`);
+        tg.MainButton.setColor('#2cab37'); // Устанавливаем цвет кнопки
+        tg.MainButton.setTextColor('#FFFFFF'); // Устанавливаем цвет текста на кнопке
+        tg.MainButton.show();
+
+        tg.MainButton.onClick(function() {
+            tg.sendData(jsonData); // Отправляем данные
+            tg.MainButton.hide(); // Скрываем кнопку после нажатия
+            tg.close(); // Закрываем веб-приложение
+        });
+    } else {
+        // Отобразить сообщение о том, что нужно выбрать товар
+        console.log("Выберите товар перед тем, как нажать на кнопку 'Приобрести'.");
+    }
 });
 
 // Проверка видимости кнопки Telegram
-if (selectedItemId !== null) {
+let selectedItems = items.filter(item => item.selected);
+
+if (selectedItems.length > 0) {
     let tg = window.Telegram.WebApp;
     tg.MainButton.show();
 } else {
