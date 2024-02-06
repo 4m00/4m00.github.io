@@ -14,8 +14,8 @@ let items = [
 let selectedItemId = null;
 
 function updateQuantity(index) {
+  selectedItemId = index + 1; // Установка selectedItemId здесь
   let item = items[index];
-
   let quantityDisplay = document.getElementById(`quantity${index + 1}`);
   let buyBtn = document.getElementById(`buy-btn${index + 1}`);
   let quantityControls = document.getElementById(`quantity-controls${index + 1}`);
@@ -43,7 +43,7 @@ function updateQuantity(index) {
   const tgButton = document.getElementById('tg-button');
   if (totalQuantity > 0) {
     tgButton.style.display = 'inline';
-    tgButton.innerHTML = 'Приобрести'; // Set button text to "Приобрести"
+    tgButton.innerHTML = 'Приобрести'; // Установка текста кнопки в "Приобрести"
   } else {
     tgButton.style.display = 'none';
   }
@@ -52,19 +52,16 @@ function updateQuantity(index) {
 for (let i = 0; i < items.length; i++) {
   document.getElementById(`buy-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItemId = i + 1;
     updateQuantity(i);
   });
 
   document.getElementById(`plus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity++;
-    selectedItemId = i + 1;
     updateQuantity(i);
   });
 
   document.getElementById(`minus-btn${i + 1}`).addEventListener('click', () => {
     items[i].quantity = Math.max(0, items[i].quantity - 1);
-    selectedItemId = i + 1;
     updateQuantity(i);
   });
 }
@@ -72,27 +69,27 @@ for (let i = 0; i < items.length; i++) {
 document.getElementById('tg-button').addEventListener('click', function () {
   let totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Создаем объект с необходимыми данными
   let data = {
     items: items,
     totalPrice: totalPrice,
     selectedItem: selectedItemId
   };
 
-  // Преобразуем объект в JSON-строку
   let jsonData = JSON.stringify(data);
 
   // Отправляем данные через Telegram Web App
-  Telegram.WebApp.sendData(jsonData);
+  let tg = window.Telegram.WebApp;
+  tg.sendData(jsonData);
 
   // Закрываем веб-приложение
-  Telegram.WebApp.close();
+  tg.close();
 });
 
-// Telegram button event listener using tg.MainButton
+// Проверка видимости кнопки Telegram и установка текста
 Telegram.MainButton.onVisible(function () {
   if (selectedItemId !== null) {
-    Telegram.MainButton.setText(`Приобрести`);
-    document.getElementById('tg-button').style.display = 'inline'; // Ensure the Telegram button is displayed
+    let tg = window.Telegram.WebApp;
+    tg.MainButton.setText(`Приобрести`);
+    tg.MainButton.show();
   }
 });
