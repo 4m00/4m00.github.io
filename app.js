@@ -25,6 +25,7 @@ function updateQuantity(index) {
     let quantityControls = document.getElementById(`quantity-controls${index + 1}`);
     let minusBtn = document.getElementById(`minus-btn${index + 1}`);
     let plusBtn = document.getElementById(`plus-btn${index + 1}`);
+    let tgButton = document.getElementById('tg-button');
 
     if (item.quantity > 0) {
         quantityDisplay.style.display = 'inline';
@@ -43,14 +44,7 @@ function updateQuantity(index) {
     quantityDisplay.textContent = item.quantity;
 
     const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-    const tgButton = document.getElementById('tg-button');
-
-    if (totalQuantity > 0) {
-        tgButton.style.display = 'inline';
-        tgButton.innerHTML = 'Приобрести'; // Установка текста кнопки в "Приобрести"
-    } else {
-        tgButton.style.display = 'none';
-    }
+    tgButton.style.display = totalQuantity > 0 ? 'block' : 'none';
 }
 
 // Добавление обработчиков событий для кнопок для обновления количества
@@ -83,17 +77,24 @@ document.getElementById('tg-button').addEventListener('click', function () {
 
     // Отправляем данные через Telegram Web App
     let tg = window.Telegram.WebApp;
-    tg.sendData(jsonData);
 
-    // Закрываем веб-приложение
-    tg.close();
+    tg.MainButton.setText(`Приобрести`);
+    tg.MainButton.setColor('#2cab37'); // Устанавливаем цвет кнопки
+    tg.MainButton.setTextColor('#FFFFFF'); // Устанавливаем цвет текста на кнопке
+    tg.MainButton.show();
+
+    tg.MainButton.onClick(function() {
+        tg.sendData(jsonData); // Отправляем данные
+        tg.MainButton.hide(); // Скрываем кнопку после нажатия
+        tg.close(); // Закрываем веб-приложение
+    });
 });
 
-// Проверка видимости кнопки Telegram и установка текста
-Telegram.MainButton.onVisible(function () {
-    if (selectedItemId !== null) {
-        let tg = window.Telegram.WebApp;
-        tg.MainButton.setText(`Приобрести`);
-        tg.MainButton.show();
-    }
-});
+// Проверка видимости кнопки Telegram
+if (selectedItemId !== null) {
+    let tg = window.Telegram.WebApp;
+    tg.MainButton.show();
+} else {
+    let tg = window.Telegram.WebApp;
+    tg.MainButton.hide();
+}
