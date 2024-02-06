@@ -30,12 +30,14 @@ function updateQuantity(index, increment) {
     let tgButton = document.getElementById('tg-button');
 
     if (selectedItem.quantity > 0) {
+        selectedItem.selected = true; // Устанавливаем флаг selected в true, если товар выбран
         quantityDisplay.style.display = 'inline';
         buyBtn.style.display = 'none';
         quantityControls.style.display = 'flex';
         minusBtn.classList.add('show');
         plusBtn.classList.add('show');
     } else {
+        selectedItem.selected = false; // Устанавливаем флаг selected в false, если товар не выбран
         quantityDisplay.style.display = 'none';
         buyBtn.style.display = 'inline';
         quantityControls.style.display = 'none';
@@ -44,6 +46,15 @@ function updateQuantity(index, increment) {
     }
 
     quantityDisplay.textContent = selectedItem.quantity;
+
+    // Проверяем выбраны ли какие-либо товары и управляем видимостью кнопки MainButton
+    let selectedItems = items.filter(item => item.selected);
+
+    if (selectedItems.length > 0) {
+        tgButton.style.display = 'inline';
+    } else {
+        tgButton.style.display = 'none';
+    }
 }
 
 // Добавление обработчиков событий для кнопок для обновления количества
@@ -91,13 +102,13 @@ document.getElementById('tg-button').addEventListener('click', function () {
     }
 });
 
-// Проверка видимости кнопки Telegram
+// Проверяем видимость кнопки Telegram при загрузке страницы
 let selectedItems = items.filter(item => item.selected);
 
 if (selectedItems.length > 0) {
-    let tg = window.Telegram.WebApp;
-    tg.MainButton.show();
+    let tgButton = document.getElementById('tg-button');
+    tgButton.style.display = 'inline';
 } else {
-    let tg = window.Telegram.WebApp;
-    tg.MainButton.hide();
+    let tgButton = document.getElementById('tg-button');
+    tgButton.style.display = 'none';
 }
