@@ -95,6 +95,11 @@ document.getElementById('tg-button').addEventListener('click', function () {
   }
 });
 
-// Показываем кнопку Telegram при загрузке страницы
-let tgButton = document.getElementById('tg-button');
-tgButton.style.display = 'inline';
+// Показываем кнопку Telegram при загрузке страницы, если это Telegram Web App
+const isTelegram = window.Telegram && window.Telegram.WebApp;
+
+if (isTelegram) {
+  document.getElementById('tg-button').style.display = 'inline';
+} else {
+  document.getElementById('tg-button').style.display = 'none';
+}
