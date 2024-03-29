@@ -14,7 +14,7 @@
         <i class="fas fa-industry"></i>
         <h1>Цифровая платформа</h1>
       </div>
-      <ul id="nav-menu">
+      <ul id="nav-menu" class="menu">
         <li><a href="#" data-link="current-processes">Текущие процессы</a></li>
         <li><a href="#" data-link="add-process">Добавить процесс</a></li>
         <li><a href="#" data-link="all-processes">Все процессы</a></li>
@@ -28,8 +28,15 @@
     </nav>
   </header>
   <main>
-    <section id="app-section">
+    <section id="welcome-section">
       <h2>Добро пожаловать</h2>
+      <form id="login-form">
+        <input type="text" id="username" placeholder="Имя пользователя" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+      </form>
+    </section>
+    <section id="app-section" style="display: none">
       <section id="process-section" style="display: none">
         <h2>Процессы</h2>
         <ul id="process-list"></ul>
@@ -37,7 +44,13 @@
       <section id="add-process-section" style="display: none">
         <h2>Добавить процесс</h2>
         <form id="process-form">
-          <!-- Поля формы для добавления процесса -->
+            <label for="process-name">Название процесса:</label>
+            <input type="text" id="process-name" required />
+            <label for="process-startDate">Дата начала:</label>
+            <input type="date" id="process-startDate" required />
+            <label for="process-endDate">Дата окончания (необязательно):</label>
+            <input type="date" id="process-endDate" />
+            <button type="submit">Добавить процесс</button>
         </form>
       </section>
       <section id="materials-section" style="display: none">
