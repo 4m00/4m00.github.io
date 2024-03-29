@@ -1,6 +1,11 @@
 // Определяем объект базы данных
 let database = {
-  processes: []
+  processes: [],
+  materials: [],
+  equipment: [],
+  qualityChecks: [],
+  costs: [],
+  orders: []
 };
 
 // Обработчик события для навигационных ссылок
@@ -16,34 +21,49 @@ function handleNavLinkClick(event) {
 }
 
 // Функция для отображения раздела приложения
-const appSection = document.getElementById('app-section');
-const processSection = document.getElementById('process-section');
-const addProcessSection = document.getElementById('add-process-section');
-const editProcessSection = document.getElementById('edit-process-section');
-const editProcessForm = document.getElementById('edit-process-form');
-const cancelEditButton = document.getElementById('cancel-edit');
+const sections = {
+  'current-processes': document.getElementById('process-section'),
+  'add-process': document.getElementById('add-process-section'),
+  'all-processes': document.getElementById('process-section'),
+  'materials': document.getElementById('materials-section'),
+  'equipment': document.getElementById('equipment-section'),
+  'quality-control': document.getElementById('quality-control-section'),
+  'cost-management': document.getElementById('cost-management-section'),
+  'process-visualization': document.getElementById('process-visualization-section'),
+  'orders': document.getElementById('orders-section')
+};
 
 function showSection(sectionId) {
-  const sections = [processSection, addProcessSection, editProcessSection];
-  sections.forEach(section => {
+  Object.values(sections).forEach(section => {
     section.style.display = 'none';
   });
 
-  switch (sectionId) {
-    case 'current-processes':
-      processSection.style.display = 'block';
-      renderProcessList();
-      break;
-    case 'add-process':
-      addProcessSection.style.display = 'block';
-      processForm.reset();
-      break;
-    case 'all-processes':
-      processSection.style.display = 'block';
-      renderProcessList();
-      break;
-    default:
-      break;
+  const selectedSection = sections[sectionId];
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+    switch (sectionId) {
+      case 'current-processes':
+      case 'all-processes':
+        renderProcessList();
+        break;
+      case 'materials':
+        renderMaterialsList();
+        break;
+      case 'equipment':
+        renderEquipmentList();
+        break;
+      case 'quality-control':
+        renderQualityChecksList();
+        break;
+      case 'cost-management':
+        renderCostsList();
+        break;
+      case 'orders':
+        renderOrdersList();
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -67,116 +87,240 @@ function renderProcessList() {
   });
 }
 
-// Функция для удаления процесса
-function removeProcess(index) {
-  database.processes.splice(index, 1);
-  renderProcessList();
+// Функции для работы с материалами
+const materialsList = document.getElementById('materials-list');
+
+function renderMaterialsList() {
+  materialsList.innerHTML = '';
+  database.materials.forEach((material, index) => {
+    const listItem = document.createElement('li');
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Удалить';
+    removeButton.addEventListener('click', () => removeMaterial(index));
+    listItem.textContent = `${material.name} (${material.quantity} ${material.unit})`;
+    listItem.appendChild(removeButton);
+    materialsList.appendChild(listItem);
+  });
 }
 
-// Функция для редактирования процесса
-function editProcess(index) {
-  const process = database.processes[index];
-  editProcessForm['edit-process-name'].value = process.name;
-  editProcessForm['edit-process-start'].value = process.startDate;
-  editProcessForm['edit-process-end'].value = process.endDate || '';
-  editProcessForm['edit-process-task'].value = process.task;
-  editProcessForm['edit-process-employees'].value = process.employees.join(',');
-  showEditSection();
+function removeMaterial(index) {
+  database.materials.splice(index, 1);
+  renderMaterialsList();
 }
 
-// Функция для отображения раздела редактирования процесса
-function showEditSection() {
-  processSection.style.display = 'none';
-  addProcessSection.style.display = 'none';
-  editProcessSection.style.display = 'block';
-}
+const materialForm = document.getElementById('material-form');
+materialForm.addEventListener('submit', handleAddMaterial);
 
-// Обработчик события для кнопки "Отмена" при редактировании процесса
-cancelEditButton.addEventListener('click', () => {
-  showSection('current-processes');
-});
-
-// Обработчик события для формы редактирования процесса
-editProcessForm.addEventListener('submit', handleEditProcess);
-
-function handleEditProcess(event) {
+function handleAddMaterial(event) {
   event.preventDefault();
-  const index = parseInt(editProcessForm['edit-process-index'].value);
-  const processName = editProcessForm['edit-process-name'].value.trim();
-  const processStartDate = editProcessForm['edit-process-start'].value;
-  const processEndDate = editProcessForm['edit-process-end'].value;
-  const processTask = editProcessForm['edit-process-task'].value.trim();
-  const processEmployees = editProcessForm['edit-process-employees'].value.trim().split(',');
-  
-  if (processName && processStartDate && processTask && processEmployees.length > 0) {
-    // Проверка корректности выбранной даты окончания
-    if (processEndDate && processEndDate < processStartDate) {
-      alert('Дата окончания не может быть раньше даты начала');
-      return;
-    }
+  const materialName = document.getElementById('material-name').value.trim();
+  const materialQuantity = document.getElementById('material-quantity').value;
+  const materialUnit = document.getElementById('material-unit').value.trim();
 
-    const updatedProcess = {
-      name: processName,
-      startDate: processStartDate,
-      endDate: processEndDate || null,
-      task: processTask,
-      employees: processEmployees
+  if (materialName && materialQuantity && materialUnit) {
+    const newMaterial = {
+      name: materialName,
+      quantity: materialQuantity,
+      unit: materialUnit
     };
-    database.processes[index] = updatedProcess;
-    renderProcessList();
-    showSection('current-processes');
-  } else {
-    alert('Заполните все поля формы');
-// Закрытие раздела редактирования процесса и отображение раздела списка процессов
-function closeEditSection() {
-  editProcessSection.style.display = 'none';
-  processSection.style.display = 'block';
-}
-
-// Обработчик события для формы добавления процесса
-const processForm = document.getElementById('process-form');
-processForm.addEventListener('submit', handleAddProcess);
-
-function handleAddProcess(event) {
-  event.preventDefault();
-  const processName = document.getElementById('process-name').value.trim();
-  const processStartDate = document.getElementById('process-start').value;
-  const processEndDateInput = document.getElementById('process-end');
-  const processEndDate = processEndDateInput.value;
-  const processTask = document.getElementById('process-task').value.trim();
-  const processEmployees = document.getElementById('process-employees').value.trim().split(',');
-  
-  // Установка минимальной даты для поля даты окончания
-  processEndDateInput.min = processStartDate;
-
-  if (processName && processStartDate && processTask && processEmployees.length > 0) {
-    // Проверка корректности выбранной даты окончания
-    if (processEndDate && processEndDate < processStartDate) {
-      alert('Дата окончания не может быть раньше даты начала');
-      return;
-    }
-
-    const newProcess = {
-      name: processName,
-      startDate: processStartDate,
-      endDate: processEndDate || null,
-      task: processTask,
-      employees: processEmployees
-    };
-
-    database.processes.push(newProcess);
-    renderProcessList();
-    showSection('current-processes');
+    database.materials.push(newMaterial);
+    renderMaterialsList();
+    materialForm.reset();
   } else {
     alert('Заполните все поля формы');
   }
 }
 
-// Функция для обновления минимальной даты даты окончания процесса
-function updateEndDateMin() {
-  const startDate = document.getElementById('process-start').value;
-  document.getElementById('process-end').min = startDate;
+// Функции для работы с оборудованием
+const equipmentList = document.getElementById('equipment-list');
+
+function renderEquipmentList() {
+  equipmentList.innerHTML = '';
+  database.equipment.forEach((equipment, index) => {
+    const listItem = document.createElement('li');
+    const removeButton = document.createElement('button');
+    const editButton = document.createElement('button');
+    removeButton.textContent = 'Удалить';
+    editButton.textContent = 'Редактировать';
+    removeButton.addEventListener('click', () => removeEquipment(index));
+    editButton.addEventListener('click', () => editEquipment(index));
+    listItem.textContent = `${equipment.name} (${equipment.type}, ${equipment.status})`;
+    listItem.appendChild(removeButton);
+    listItem.appendChild(editButton);
+    equipmentList.appendChild(listItem);
+  });
 }
 
-// Добавляем слушатель события для поля даты начала процесса
-document.getElementById('process-start').addEventListener('change', updateEndDateMin);
+function removeEquipment(index) {
+  database.equipment.splice(index, 1);
+  renderEquipmentList();
+}
+
+function editEquipment(index) {
+  const equipment = database.equipment[index];
+  const equipmentForm = document.getElementById('equipment-form');
+  equipmentForm['equipment-name'].value = equipment.name;
+  equipmentForm['equipment-type'].value = equipment.type;
+  equipmentForm['equipment-status'].value = equipment.status;
+  // Добавьте здесь код для отображения формы редактирования оборудования
+}
+
+const equipmentForm = document.getElementById('equipment-form');
+equipmentForm.addEventListener('submit', handleAddEquipment);
+
+function handleAddEquipment(event) {
+  event.preventDefault();
+  const equipmentName = document.getElementById('equipment-name').value.trim();
+  const equipmentType = document.getElementById('equipment-type').value.trim();
+  const equipmentStatus = document.getElementById('equipment-status').value;
+
+  if (equipmentName && equipmentType && equipmentStatus) {
+    const newEquipment = {
+      name: equipmentName,
+      type: equipmentType,
+      status: equipmentStatus
+    };
+    database.equipment.push(newEquipment);
+    renderEquipmentList();
+    equipmentForm.reset();
+  } else {
+    alert('Заполните все поля формы');
+  }
+}
+
+// Функции для работы с проверками качества
+const qualityChecksList = document.getElementById('quality-checks-list');
+
+function renderQualityChecksList() {
+  qualityChecksList.innerHTML = '';
+  database.qualityChecks.forEach((check, index) => {
+    const listItem = document.createElement('li');
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Удалить';
+    removeButton.addEventListener('click', () => removeQualityCheck(index));
+    listItem.textContent = `${check.product} (${check.date}, ${check.result})`;
+    listItem.appendChild(removeButton);
+    qualityChecksList.appendChild(listItem);
+  });
+}
+
+function removeQualityCheck(index) {
+  database.qualityChecks.splice(index, 1);
+  renderQualityChecksList();
+}
+
+const qualityCheckForm = document.getElementById('quality-check-form');
+qualityCheckForm.addEventListener('submit', handleAddQualityCheck);
+
+function handleAddQualityCheck(event) {
+  event.preventDefault();
+  const product = document.getElementById('quality-check-product').value.trim();
+  const date = document.getElementById('quality-check-date').value;
+  const result = document.getElementById('quality-check-result').value;
+  const notes = document.getElementById('quality-check-notes').value.trim();
+
+  if (product && date && result) {
+    const newCheck = {
+      product,
+      date,
+      result,
+      notes
+    };
+        database.qualityChecks.push(newCheck);
+    renderQualityChecksList();
+    qualityCheckForm.reset();
+  } else {
+    alert('Заполните все обязательные поля');
+  }
+}
+
+// Функции для работы со статьями расходов
+const costsList = document.getElementById('costs-list');
+
+function renderCostsList() {
+  costsList.innerHTML = '';
+  database.costs.forEach((cost, index) => {
+    const listItem = document.createElement('li');
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Удалить';
+    removeButton.addEventListener('click', () => removeCost(index));
+    listItem.textContent = `${cost.name} (${cost.amount}, ${cost.date})`;
+    listItem.appendChild(removeButton);
+    costsList.appendChild(listItem);
+  });
+}
+
+function removeCost(index) {
+  database.costs.splice(index, 1);
+  renderCostsList();
+}
+
+const costForm = document.getElementById('cost-form');
+costForm.addEventListener('submit', handleAddCost);
+
+function handleAddCost(event) {
+  event.preventDefault();
+  const costName = document.getElementById('cost-name').value.trim();
+  const costAmount = document.getElementById('cost-amount').value;
+  const costDate = document.getElementById('cost-date').value;
+
+  if (costName && costAmount && costDate) {
+    const newCost = {
+      name: costName,
+      amount: costAmount,
+      date: costDate
+    };
+    database.costs.push(newCost);
+    renderCostsList();
+    costForm.reset();
+  } else {
+    alert('Заполните все поля формы');
+  }
+}
+
+// Функции для работы с заказами
+const ordersList = document.getElementById('orders-list');
+
+function renderOrdersList() {
+  ordersList.innerHTML = '';
+  database.orders.forEach((order, index) => {
+    const listItem = document.createElement('li');
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Удалить';
+    removeButton.addEventListener('click', () => removeOrder(index));
+    listItem.textContent = `${order.product} (${order.quantity}, ${order.dueDate})`;
+    listItem.appendChild(removeButton);
+    ordersList.appendChild(listItem);
+  });
+}
+
+function removeOrder(index) {
+  database.orders.splice(index, 1);
+  renderOrdersList();
+}
+
+const orderForm = document.getElementById('order-form');
+orderForm.addEventListener('submit', handleAddOrder);
+
+function handleAddOrder(event) {
+  event.preventDefault();
+  const orderProduct = document.getElementById('order-product').value.trim();
+  const orderQuantity = document.getElementById('order-quantity').value;
+  const orderDueDate = document.getElementById('order-duedate').value;
+
+  if (orderProduct && orderQuantity && orderDueDate) {
+    const newOrder = {
+      product: orderProduct,
+      quantity: orderQuantity,
+      dueDate: orderDueDate
+    };
+    database.orders.push(newOrder);
+    renderOrdersList();
+    orderForm.reset();
+  } else {
+    alert('Заполните все поля формы');
+  }
+}
+
+// Показываем приветственный раздел по умолчанию
+showSection('current-processes');
