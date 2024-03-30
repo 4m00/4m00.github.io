@@ -86,30 +86,37 @@ let currentEditingProcessIndex = null;
 
 // Обработчик события для формы добавления/редактирования процесса
 document.getElementById('process-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const processName = document.getElementById('process-name').value;
-    const processStartDate = document.getElementById('process-startDate').value;
-    const processEndDate = document.getElementById('process-endDate').value || '';
-    const newProcess = {
-        name: processName,
-        startDate: processStartDate,
-        endDate: processEndDate,
-        participants: [], // Добавьте возможность указывать участников, если требуется
-        developmentStage: '' // Добавьте возможность указывать этап разработки, если требуется
-    };
+  event.preventDefault();
+  const processName = document.getElementById('process-name').value;
+  const processStartDate = document.getElementById('process-startDate').value;
+  const processEndDate = document.getElementById('process-endDate').value || '';
 
-    if (currentEditingProcessIndex !== null) {
-        // Обновляем существующий процесс
-        database.processes[currentEditingProcessIndex] = newProcess;
-        currentEditingProcessIndex = null; // Сбрасываем индекс после обновления
-    } else {
-        // Добавляем новый процесс
-        database.processes.push(newProcess);
-    }
+  // Проверка даты окончания процесса
+  if (processEndDate && new Date(processEndDate) < new Date(processStartDate)) {
+      alert('Дата окончания процесса не может быть раньше даты начала');
+      return;
+  }
 
-    renderProcessList(); // Перерисовываем список процессов
-    document.getElementById('process-form').reset(); // Сбрасываем форму
-    showSection('current-processes'); // Возвращаем пользователя к списку текущих процессов
+  const newProcess = {
+      name: processName,
+      startDate: processStartDate,
+      endDate: processEndDate,
+      participants: [], // Добавьте возможность указывать участников, если требуется
+      developmentStage: '' // Добавьте возможность указывать этап разработки, если требуется
+  };
+
+  if (currentEditingProcessIndex !== null) {
+      // Обновляем существующий процесс
+      database.processes[currentEditingProcessIndex] = newProcess;
+      currentEditingProcessIndex = null; // Сбрасываем индекс после обновления
+  } else {
+      // Добавляем новый процесс
+      database.processes.push(newProcess);
+  }
+
+  renderProcessList(); // Перерисовываем список процессов
+  document.getElementById('process-form').reset(); // Сбрасываем форму
+  showSection('current-processes'); // Возвращаем пользователя к списку текущих процессов
 });
 
 // Функция для редактирования процесса
