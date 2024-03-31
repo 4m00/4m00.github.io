@@ -122,28 +122,41 @@ function editProcess(index) {
   }
 }
 
-// Функция для отображения списка процессов с обновленными кнопками редактирования и удаления
+// Функция для отображения списка процессов с обновленными кнопками редактирования, удаления и просмотра
 function renderProcessList() {
     const processListElement = document.getElementById('process-list');
     processListElement.innerHTML = ''; // Очищаем список
 
     database.processes.forEach((process, index) => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${process.name} (${process.startDate} - ${process.endDate || 'Открытая'}) Участники: ${process.participants.join(', ')} Этап: ${process.developmentStage}`;
+        listItem.innerHTML = `${process.name} (${process.startDate} - ${process.endDate || 'Открытая'}) Участники: ${process.participants.join(', ')} Этап: ${process.developmentStage}`;
+        listItem.style.cursor = 'pointer';
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Редактировать';
-        editButton.onclick = () => editProcess(index); // Назначаем функцию редактирования
+        editButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Предотвращаем всплытие события, чтобы клик по кнопке не считался кликом по элементу списка
+            editProcess(index);
+        });
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить';
-        deleteButton.onclick = () => {
-            removeProcess(index); // Удаляем процесс
+        deleteButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Аналогично предотвращаем всплытие события
+            removeProcess(index);
             renderProcessList(); // Перерисовываем список
-        };
+        });
 
+        // Добавляем кнопки редактирования и удаления к элементу списка
         listItem.appendChild(editButton);
         listItem.appendChild(deleteButton);
+
+        // Добавляем обработчик клика для просмотра деталей процесса
+        listItem.addEventListener('click', () => {
+            viewProcess(index);
+        });
+
+        // Добавляем элемент списка на страницу
         processListElement.appendChild(listItem);
     });
 }
@@ -185,6 +198,35 @@ function updateProcess(index) {
   return true; // Успешное обновление
 }
 
+// Функция для просмотра процесса
+function viewProcess(index) {
+  const process = database.processes[index];
+  const processDetails = `
+    Название: ${process.name}<br>
+    Дата начала: ${process.startDate}<br>
+    Дата окончания: ${process.endDate || 'Не указана'}<br>
+    Участники: ${process.participants.join(', ')}<br>
+    Этап разработки: ${process.developmentStage}`;
+
+  // Отображаем детали процесса в модальном окне
+  document.getElementById('processDetails').innerHTML = processDetails;
+  document.getElementById('processModal').style.display = "block";
+}
+
+// Код для закрытия модального окна
+var modal = document.getElementById('processModal');
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 // Обновленная функция для добавления процесса с проверкой даты окончания
 function handleAddProcess(event) {
   event.preventDefault();
@@ -216,11 +258,6 @@ function handleAddProcess(event) {
   }
 }
 
-// Функция для просмотра процесса
-function viewProcess(index) {
-  const process = database.processes[index];
-  alert(`Название: ${process.name}\nДата начала: ${process.startDate}\nДата окончания: ${process.endDate || 'Открытая'}\nУчастники: ${process.participants.join(', ')}\nЭтап разработки: ${process.developmentStage}`);
-}
 
 // Функции для работы с материалами
 const materialsList = document.getElementById('materials-list');
