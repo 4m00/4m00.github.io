@@ -129,8 +129,7 @@ function renderProcessList() {
 
     database.processes.forEach((process, index) => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `${process.name} (${process.startDate} - ${process.endDate || 'Открытая'}) Участники: ${process.participants.join(', ')} Этап: ${process.developmentStage}`;
-        listItem.style.cursor = 'pointer';
+        listItem.innerHTML = `${process.name} (${formatDate(process.startDate)} - ${process.endDate ? formatDate(process.endDate) : 'Открытая'}) Участники: ${process.participants.join(', ')} Этап: ${process.developmentStage}`;        listItem.style.cursor = 'pointer';
 
         const editButton = document.createElement('button');
         editButton.textContent = 'Редактировать';
@@ -253,6 +252,7 @@ function handleAddProcess(event) {
     database.processes.push(newProcess);
     renderProcessList();
     addProcessForm.reset();
+    showSection('current-processes'); 
   } else {
     alert('Заполните все обязательные поля формы');
   }
@@ -530,6 +530,15 @@ function handleAddOrder(event) {
   } else {
     alert('Заполните все поля формы');
   }
+}
+
+// Функция для форматирования времени
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString().slice(-2);
+  return `${day}.${month}.${year}`;
 }
 
 // Пример базы данных для использования в этом коде
