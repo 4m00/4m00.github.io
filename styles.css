@@ -13,18 +13,15 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4; 
 }
 
 header {
   background-color: var(--primary-color);
   color: #fff;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
-}
-
-header.active {
-  display: block;
 }
 
 nav {
@@ -50,12 +47,12 @@ nav {
 
 .menu li {
   margin: 0 10px;
-} 
+}
 
 .menu a {
   color: #fff;
   text-decoration: none;
-  transition: color 0.3s;  
+  transition: color 0.3s;
 }
 
 .menu a:hover {
@@ -66,6 +63,14 @@ main {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+}
+
+section {
+  margin-bottom: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #welcome-section {
@@ -79,9 +84,9 @@ main {
 form {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  width: 300px;
-  margin: 20px auto;
+  width: 100%;
+  max-width: 400px; /* Добавлено: ограничение максимальной ширины форм */
+  margin: 0 auto;
 }
 
 input, button {
@@ -123,6 +128,71 @@ button:hover {
   background: var(--secondary-color);
 }
 
+#login-form {
+  max-width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#login-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--secondary-color);
+  color: white;
+  cursor: pointer;
+}
+
+#login-form button:hover {
+  background: darken(var(--secondary-color), 10%);
+}
+
+#process-list li {
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-left: 5px solid var(--secondary-color);
+  list-style-type: none;
+}
+
+#process-list button {
+  margin-left: 10px;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.delete-button {
+  background-color: #d9534f;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: darken(#f0ad4e, 10%);
+}
+
+.delete-button:hover {
+  background-color: darken(#d9534f, 10%);
+}
+
 footer {
   position: fixed;
   bottom: 0;
@@ -131,5 +201,5 @@ footer {
   background: var(--primary-color);
   color: #fff;
   padding: 10px;
-  text-align: center;   
+  text-align: center;
 }
