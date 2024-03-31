@@ -94,9 +94,14 @@ const editProcessForm = document.getElementById('edit-process-form');
 editProcessForm.addEventListener('submit', function(event) {
   event.preventDefault();
   if (currentEditingProcessIndex !== null) {
-    updateProcess(currentEditingProcessIndex);
-    currentEditingProcessIndex = null;
-    showSection('current-processes');
+    // Вызов функции обновления процесса с проверкой возвращаемого значения
+    const isUpdated = updateProcess(currentEditingProcessIndex);
+    if (isUpdated) {
+      // Если процесс успешно обновлен, очистить индекс редактируемого процесса и показать список процессов
+      currentEditingProcessIndex = null;
+      showSection('current-processes');
+    }
+    // Если процесс не обновлен (например, из-за ошибки дат), форма останется открытой
   }
 });
 
@@ -156,26 +161,28 @@ function updateProcess(index) {
   const processParticipants = editProcessForm['process-participants'].value.split(',').map(p => p.trim());
   const processDevelopmentStage = editProcessForm['process-developmentStage'].value.trim();
 
-  // Проверка даты окончания процесса
-  if (processEndDate && new Date(processEndDate) < new Date(processStartDate)) {
-    alert('Дата окончания процесса не может быть раньше даты начала');
-    return;
+  if (!processName || !processStartDate) {
+    alert('Заполните все обязательные поля формы');
+    return false; // Возвращаем false, чтобы указать на ошибку валидации
   }
 
-  if (processName && processStartDate) {
-    const updatedProcess = {
-      name: processName,
-      startDate: processStartDate,
-      endDate: processEndDate,
-      participants: processParticipants,
-      developmentStage: processDevelopmentStage
-    };
-    database.processes[index] = updatedProcess;
-    renderProcessList();
-    showSection('current-processes'); 
-  } else {
-    alert('Заполните все обязательные поля формы');
+  if (processEndDate && new Date(processEndDate) < new Date(processStartDate)) {
+    alert('Дата окончания процесса не может быть раньше даты начала');
+    return false; // Продолжаем оставлять форму открытой для редактирования
   }
+
+  // Если все проверки пройдены, обновляем процесс
+  const updatedProcess = {
+    name: processName,
+    startDate: processStartDate,
+    endDate: processEndDate,
+    participants: processParticipants,
+    developmentStage: processDevelopmentStage
+  };
+  database.processes[index] = updatedProcess;
+  renderProcessList();
+  
+  return true; // Успешное обновление
 }
 
 // Обновленная функция для добавления процесса с проверкой даты окончания
