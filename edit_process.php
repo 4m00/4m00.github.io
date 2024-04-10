@@ -13,19 +13,19 @@ if ($conn->connect_error) {
 
 // Обработка запроса POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Получение и обновление данных о процессе
-  $processId = $_POST['edit-process-id'];
-  $processName = $_POST['edit-process-name'];
-  $processStartDate = $_POST['edit-process-startDate'];
-  $processEndDate = $_POST['edit-process-endDate'];
-  $processParticipants = $_POST['edit-process-participants'];
-  $processDevelopmentStage = $_POST['edit-process-developmentStage'];
+    // Получение и обновление данных о процессе
+    $processId = $_POST['edit-process-id']; // Поменяли ключ на edit-process-id
+    $processName = $_POST['edit-process-name'];
+    $processStartDate = $_POST['edit-process-startDate'];
+    $processEndDate = $_POST['edit-process-endDate'];
+    $processParticipants = $_POST['edit-process-participants'];
+    $processDevelopmentStage = $_POST['edit-process-developmentStage'];
 
-  // Подготовка и выполнение запроса на обновление данных
-  $stmt = $conn->prepare("UPDATE processes SET name = ?, start_date = ?, end_date = ?, participants = ?, development_stage = ? WHERE id = ?");
+    // Подготовка и выполнение запроса на обновление данных
+    $stmt = $conn->prepare("UPDATE processes SET name = ?, start_date = ?, end_date = ?, participants = ?, development_stage = ? WHERE id = ?");
 
-  // Установка типов данных для параметров
-  $stmt->bind_param("sssssi", $processName, $processStartDate, $processEndDate, $processParticipants, $processDevelopmentStage, $processId);
+    // Установка типов данных для параметров
+    $stmt->bind_param("sssssi", $processName, $processStartDate, $processEndDate, $processParticipants, $processDevelopmentStage, $processId);
 
   // Запуск транзакции
   $conn->begin_transaction();

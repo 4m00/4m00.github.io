@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function editProcessForm(processId) {
-     // Получаем данные о процессе для заполнения формы
         fetch(`edit_process.php?id=${processId}`)
             .then(response => response.json())
             .then(data => {
@@ -143,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Ошибка при получении данных о процессе:', error));
     }
+
 
     // Добавим обработчик для формы редактирования
     document.getElementById('edit-process-form').addEventListener('submit', function(e) {

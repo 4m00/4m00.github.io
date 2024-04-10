@@ -65,25 +65,25 @@ if (!isset($_SESSION['username'])) {
       </section>
       <section id="edit-process-section" style="display: none">
         <h2>Изменить процесс</h2>
-        <form action="edit_process.php" method="post">
-            <input type="hidden" name="process-id" id="edit-process-id" value="">
-            <label for="edit-process-name">Название процесса:</label>
-            <input type="text" id="edit-process-name" name="edit-process-name" required><br><br>
-            <label for="edit-process-startDate">Дата начала:</label>
-            <input type="date" id="edit-process-startDate" name="edit-process-startDate" required><br><br>
-            <label for="edit-process-endDate">Дата окончания (необязательно):</label>
-            <input type="date" id="edit-process-endDate" name="edit-process-endDate"><br><br>
-            <label for="edit-process-participants">Участники (через запятую):</label>
-            <input type="text" id="edit-process-participants" name="edit-process-participants"><br><br>
-            <label for="edit-process-developmentStage">Этап разработки:</label>
-            <select id="edit-process-developmentStage" name="edit-process-developmentStage">
+        <form action="edit_process.php" method="post" id="edit-process-form">
+          <input type="hidden" name="edit-process-id" id="edit-process-id" value="">
+          <label for="edit-process-name">Название процесса:</label>
+          <input type="text" id="edit-process-name" name="edit-process-name" required><br><br>
+          <label for="edit-process-startDate">Дата начала:</label>
+          <input type="date" id="edit-process-startDate" name="edit-process-startDate" required><br><br>
+          <label for="edit-process-endDate">Дата окончания (необязательно):</label>
+          <input type="date" id="edit-process-endDate" name="edit-process-endDate"><br><br>
+          <label for="edit-process-participants">Участники (через запятую):</label>
+          <input type="text" id="edit-process-participants" name="edit-process-participants"><br><br>
+          <label for="edit-process-developmentStage">Этап разработки:</label>
+          <select id="edit-process-developmentStage" name="edit-process-developmentStage">
               <option value="Планирование">Планирование</option>
               <option value="Разработка">Разработка</option>
               <option value="Тестирование">Тестирование</option>
               <option value="Внедрение">Внедрение</option>
-            </select><br><br>
-            <button type="submit">Изменить процесс</button>
-        </form>
+          </select><br><br>
+          <button type="submit">Изменить процесс</button>
+      </form>
       </section>
       <section id="all-processes-section" style="display: none">
         <h2>Все процессы</h2>
