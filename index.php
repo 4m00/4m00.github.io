@@ -1,42 +1,50 @@
 <?php
 session_start();
-// Проверяем, был ли выполнен вход
-if (!isset($_SESSION['username'])) {
-    // Перенаправляем на страницу входа, если пользователь не авторизован
-    header("Location: login.html");
-    exit();
+
+// Проверка на авторизацию пользователя
+if (!isset($_SESSION['user_id'])) {
+  header("Location: login.php");
+  exit();
 }
 
-// Если пользователь авторизован, отображаем главную страницу
+// Обработка запроса на выход
+if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
+  session_unset();
+  session_destroy();
+  header("Location: login.php");
+  exit();
+}
+
+$current_page = basename($_SERVER['PHP_SELF']);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Производственная платформа</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Производственная платформа</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo">
-        <i class="fas fa-industry"></i>
-        <h1>Цифровая платформа</h1>
-      </div>
-      <ul id="nav-menu" class="menu">
-        <li><a href="#" data-link="current-processes">Текущие процессы</a></li>
-        <li><a href="#" data-link="add-process">Добавить процесс</a></li>
-        <li><a href="#" data-link="all-processes">Все процессы</a></li>
-        <li><a href="#" data-link="process-visualization">Визуализация процессов</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section id="welcome-section">
-      <h2>Добро пожаловать, <?php echo $_SESSION['username']; ?>!</h2>
-    </section>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-industry"></i>
+                <h1>Цифровая платформа</h1>
+            </div>
+            <ul id="nav-menu" class="menu">
+                <li><a href="#" data-link="current-processes">Текущие процессы</a></li>
+                <li><a href="#" data-link="add-process">Добавить процесс</a></li>
+                <li><a href="#" data-link="all-processes">Все процессы</a></li>
+                <li><a href="#" data-link="process-visualization">Визуализация процессов</a></li>
+                <li><a href="?logout=true">Выйти</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
     <section id="app-section">
       <section id="current-processes-section" style="display: none">
         <h2>Текущие процессы</h2>

@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 // Запрос на получение текущих процессов
-$sql_current = "SELECT * FROM processes WHERE end_date >= CURDATE()";
+$sql_current = "SELECT * FROM processes WHERE end_date >= CURDATE() AND start_date <= CURDATE()";
 
 $result_current = $conn->query($sql_current);
 

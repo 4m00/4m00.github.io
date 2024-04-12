@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 // Обработка запроса POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Получение и обновление данных о процессе
-    $processId = $_POST['edit-process-id']; // Поменяли ключ на edit-process-id
+    $processId = $_POST['edit-process-id'];
     $processName = $_POST['edit-process-name'];
     $processStartDate = $_POST['edit-process-startDate'];
     $processEndDate = $_POST['edit-process-endDate'];
@@ -27,37 +27,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Установка типов данных для параметров
     $stmt->bind_param("sssssi", $processName, $processStartDate, $processEndDate, $processParticipants, $processDevelopmentStage, $processId);
 
-  // Запуск транзакции
-  $conn->begin_transaction();
+    // Запуск транзакции
+    $conn->begin_transaction();
 
-  // Выполнение обновления
-  if ($stmt->execute()) {
+    // Выполнение обновления
+    if ($stmt->execute()) {
+        $stmt->close();
+        $conn->commit();
+        echo json_encode(["success" => true]);
+        header("Location: index.php");
+    } else {
+        $conn->rollback();
+        echo json_encode(["success" => false, "error" => $stmt->error]);
+    }
+
     $stmt->close();
-    $conn->commit();
-    header("Location: index.php");
-    exit(); // Завершаем скрипт без вывода дополнительных данных
-  } else {
-    $conn->rollback();
-    echo json_encode(["success" => false, "error" => $stmt->error]);
-  }
-
-  $stmt->close();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-  // Получение данных о процессе по его ID
+    // Получение данных о процессе по его ID
+    $processId = $_GET['id'];
+    $stmt = $conn->prepare("SELECT * FROM processes WHERE id = ?");
+    $stmt->bind_param("i", $processId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-  $processId = $_GET['id'];
-  $stmt = $conn->prepare("SELECT * FROM processes WHERE id = ?");
-  $stmt->bind_param("i", $processId);
-  $stmt->execute();
-  $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        echo json_encode($row);
+    } else {
+        echo json_encode(["success" => false, "error" => "Process not found"]);
+    }
 
-  if ($row = $result->fetch_assoc()) {
-    echo json_encode($row);
-  } else {
-    echo json_encode(["success" => false, "error" => "Process not found"]);
-  }
-
-  $stmt->close();
+    $stmt->close();
 }
 
 $conn->close();

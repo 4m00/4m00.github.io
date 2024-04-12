@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 10 2024 г., 21:55
+-- Время создания: Апр 12 2024 г., 23:20
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -41,8 +41,7 @@ CREATE TABLE `processes` (
 --
 
 INSERT INTO `processes` (`id`, `name`, `start_date`, `end_date`, `participants`, `development_stage`) VALUES
-(4, 'Первый', '2024-04-08', '2024-04-12', 'admin', 'Планирование'),
-(5, 'Второй', '2024-04-08', '2024-04-10', 'admin', 'Внедрение');
+(7, 'Обработка материалов', '2024-04-08', '2024-04-28', 'admin', 'Разработка');
 
 -- --------------------------------------------------------
 
@@ -53,15 +52,15 @@ INSERT INTO `processes` (`id`, `name`, `start_date`, `end_date`, `participants`,
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password_hash` varchar(255) NOT NULL
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password_hash`) VALUES
-(4, 'admin', 'admin');
+INSERT INTO `users` (`id`, `username`, `password`) VALUES
+(1, 'admin', 'admin');
 
 --
 -- Индексы сохранённых таблиц
@@ -88,7 +87,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `processes`
 --
 ALTER TABLE `processes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `users`

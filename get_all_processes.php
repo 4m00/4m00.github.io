@@ -25,8 +25,8 @@ if ($result_all->num_rows > 0) {
         echo '<p>Дата окончания: ' . $row_all['end_date'] . '</p>';
         echo '<p>Участники: ' . $row_all['participants'] . '</p>';
         echo '<p>Этап разработки: ' . $row_all['development_stage'] . '</p>';
-        echo "<button class='edit-button' data-process-id='{$row_current['id']}'>Редактировать</button>";
-        echo "<button class='delete-button' data-process-id='{$row_current['id']}'>Удалить</button>";
+        echo "<button class='edit-button' data-process-id='{$row_all['id']}'>Редактировать</button>";
+        echo "<button class='delete-button' data-process-id='{$row_all['id']}'>Удалить</button>";
         echo '</li>';
     }
 } else {

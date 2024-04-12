@@ -19,25 +19,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.getElementById('process-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        fetch('add_process.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Процесс успешно добавлен.');
-                loadAllProcesses(); // Обновить список всех процессов
-            } else {
-                alert('Ошибка при добавлении процесса.');
+    const logoutLink = document.querySelector('a[href="?logout=true"]');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Предотвратить переход по ссылке
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                window.location.href = this.href; // Перенаправить на выход
             }
-        })
-        .catch(error => console.error('Ошибка:', error));
-    });
+        });
+    }
+
+    const processForm = document.getElementById('process-form');
+    if (processForm) {
+        processForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('add_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Процесс успешно добавлен.');
+                    loadAllProcesses(); // Обновить список всех процессов
+                } else {
+                    alert('Ошибка при добавлении процесса.');
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+        });
+    }
 
     function loadCurrentProcesses() {
         loadProcesses('get_current_processes.php', 'current-process-list');
@@ -112,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 alert('Процесс удален успешно.');
                 loadCurrentProcesses(); // Обновить список текущих процессов
+                location.reload(); // Добавлена строка для перезагрузки страницы
             } else {
                 console.error('Ошибка при удалении процесса:', data.error);
             }
@@ -143,31 +157,36 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Ошибка при получении данных о процессе:', error));
     }
 
-
     // Добавим обработчик для формы редактирования
-    document.getElementById('edit-process-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        submitEditForm();
-    });
+    const editProcessFormElement = document.getElementById('edit-process-form');
+    if (editProcessFormElement) {
+        editProcessFormElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitEditForm();
+        });
+    }
 
     // Добавим обработчик для кнопки "Добавить процесс" на странице добавления процесса
-    document.getElementById('add-process-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
+    const addProcessForm = document.getElementById('add-process-form');
+    if (addProcessForm) {
+        addProcessForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
 
-        fetch('add_process.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Процесс успешно добавлен.');
-                loadAllProcesses(); // Обновить список всех процессов
-            } else {
-                alert('Ошибка при добавлении процесса.');
-            }
-        })
-        .catch(error => console.error('Ошибка:', error));
-    });
-}); 
+            fetch('add_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Процесс успешно добавлен.');
+                    loadAllProcesses(); // Обновить список всех процессов
+                } else {
+                    alert('Ошибка при добавлении процесса.');
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+        });
+    }
+});
