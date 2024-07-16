@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТехЭксперт - Главная</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-...">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div class="header-info">
+                <p><i class="fas fa-map-marker-alt"></i> УЛ. НОВОСЛОБОДСКАЯ, Д. 48, "ДОМ БЫТА", ЭТАЖ 1</p>
+                <p><i class="fas fa-phone-alt"></i> <a href="tel:+79268522278">+7 (926) 852-22-78</a></p>
+                <p><i class="fas fa-clock"></i> ПН-ПТ С 10:00 - 20:00, СБ-ВС С 12:00 - 20:00</p>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="container">
+            <h1>ТехЭксперт <span class="subtitle">Сервис ремонта бытовой техники</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="about.html">О компании</a></li>
+                    <li><a href="services.html">Виды работ</a></li>
+                    <li><a href="pricing.html">Прайс-лист</a></li>
+                    <li><a href="contact.html">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Ваш надёжный партнёр по ремонту бытовой техники</h2>
+            <p>Мы предоставляем качественные услуги по ремонту всех видов бытовой техники</p>
+        </div>
+    </section>
+    
+    <section id="welcome" class="welcome">
+        <div class="container">
+            <h2>Добро пожаловать в ТехЭксперт!</h2>
+            <p>ТехЭксперт - это команда высококвалифицированных специалистов по ремонту бытовой техники. Мы предлагаем следующие преимущества, которые делают нас лучшим выбором:</p>
+            <ul>
+                <li>Опыт и профессионализм: Наша команда имеет многолетний опыт в ремонте бытовой техники всех типов и марок.</li>
+                <li>Качество и надежность: Мы используем только качественные запчасти и предоставляем гарантию на все виды работ.</li>
+                <li>Быстрота и удобство: Мы ценим ваше время и стремимся выполнить ремонт в кратчайшие сроки.</li>
+                <li>Прозрачность и честность: У нас нет скрытых платежей, вы всегда знаете, за что платите.</li>
+                <li>Индивидуальный подход: Мы учитываем все ваши пожелания и особенности техники, чтобы предоставить лучшее обслуживание.</li>
+            </ul>
+            <h2>Заполнить заявку на ремонт сейчас</h2>
+            <form action="send_email.php" method="post">
+                <label for="name">Ваше имя:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Ваш email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="phone">Ваш номер телефона:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="message">Описание проблемы:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; ТехЭксперт © 2009 - 2024</p>
+        </div>
+    </footer>
+</body>
+</html>
