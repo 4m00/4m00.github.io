@@ -1,27 +1,24 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars(trim($_POST['name']));
-    $email = htmlspecialchars(trim($_POST['email']));
-    $phone = htmlspecialchars(trim($_POST['phone']));
-    $message = htmlspecialchars(trim($_POST['message']));
+// Получаем значения переменных из пришедших данных
+$name = $_POST['name'];
+$email = $_POST['email'];
+$phone = $_POST['phone'];
+$message = $_POST['message'];
 
-    $to = "eczhvu@gmail.com"; // Замените на ваш email
-    $subject = "Новая заявка на ремонт от $name";
-    $headers = "From: $email\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+// Формируем сообщение для отправки, в нём мы соберём всё, что ввели в форме
+$mes = "Имя: $name \nE-mail: $email \nТелефон: $phone \nОписание: $message";
 
-    $email_message = "Имя: $name\n";
-    $email_message .= "Email: $email\n";
-    $email_message .= "Телефон: $phone\n";
-    $email_message .= "Сообщение:\n$message\n";
+// Пытаемся отправить письмо по заданному адресу
+$to = 'eczhvu@gmail.com'; // адрес, на который будет отправлено письмо
+$subject = 'Новое сообщение с сайта'; // тема письма
+$headers = "Content-type:text/plain; charset = UTF-8\r\nFrom:$email";
 
-    if (mail($to, $subject, $email_message, $headers)) {
-        echo "Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.";
-        echo "<script>setTimeout(function(){ window.location.href = 'index.html'; }, 3000);</script>";
-    } else {
-        echo "Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.";
-        echo "<script>setTimeout(function(){ window.location.href = 'index.html'; }, 3000);</script>";
-    }
+$send = mail($to, $subject, $mes, $headers);
+
+// Если отправка прошла успешно — так и пишем
+if ($send == true) {
+    echo "Сообщение отправлено";
+} else {
+    echo "Ой, что-то пошло не так";
 }
 ?>
