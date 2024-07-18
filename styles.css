@@ -254,7 +254,7 @@ footer p {
 
 /* Pricing section styles */
 .pricing {
-  padding: 4rem 0;
+  padding: 1rem 0;
   text-align: center;
   background-color: var(--background-color);
 }
@@ -392,11 +392,16 @@ footer p {
 
 /* Contact section styles */
 .contact {
-  text-align: center; /* Центрирование текста в секции */
+padding: 1rem 0;
 }
 
+/* Заголовок h2 в секции services */
 .contact h1 {
-  font-size: 2.5rem; /* Adjust this size if necessary */
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
 }
 
 .contact ul {
@@ -422,8 +427,9 @@ footer p {
 
 /* About section styles */
 .about {
-  padding: 4rem 0;
-  background-color: var(--background-color);
+  padding: 1rem 0;
+  background-color: #f9f9f9; /* Светло-серый фон */
+  color: #333333;
 }
 
 .about h2 {
@@ -432,6 +438,7 @@ footer p {
   margin-bottom: 2rem;
   text-align: center;
   font-weight: bold;
+  animation: fadeIn 1s ease-in-out;
 }
 
 .about p {
@@ -439,23 +446,90 @@ footer p {
   line-height: 1.8;
   margin-bottom: 1.5rem;
   text-align: justify;
+  animation: slideInLeft 1s ease-in-out;
+}
+
+.about h3 {
+  font-size: 2rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  animation: fadeIn 1s ease-in-out 0.5s;
 }
 
 .about ul {
   list-style: none;
   padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .about ul li {
-  margin-bottom: 1rem;
+  margin: 1rem;
   font-size: 1.1rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  flex-basis: calc(50% - 2rem);
+  animation: slideInRight 1s ease-in-out;
 }
 
 .about ul li strong {
   color: var(--primary-color);
   margin-right: 0.5rem;
+}
+
+.about ul li i {
+  margin-right: 10px;
+  color: var(--secondary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Services section styles */
+.services {
+  padding: 1rem 0;
+  background-color: #f9f9f9; /* Светло-серый фон */
+  color: #333333;
+}
+
+.services h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: bold;
 }
 
 .services details {
@@ -481,3 +555,62 @@ footer p {
   margin-top: 10px;
   color: #333333;
 }
+
+/* Repair form section styles */
+.repair-form {
+  background-color: var(--background-color);
+  padding: 3rem 0;
+  color: #333333;
+}
+
+.repair-form h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333333;
+  margin-bottom: 1.5rem;
+}
+
+.repair-form form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 2px solid #333333; /* Черная рамка */
+  border-radius: 10px; /* Закругленные углы */
+  background-color: #ffffff;
+}
+
+.repair-form form label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #333333;
+}
+
+.repair-form form input,
+.repair-form form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.repair-form form button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.repair-form form button:hover {
+  background-color: var(--hover-color);
+}
+
